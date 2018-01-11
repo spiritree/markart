@@ -19,7 +19,7 @@
     "pretty": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "target": "es2017"
+    "target": "esnext"
   },
   "exclude": ["app/public", "app/views", "node_modules"],
   "include": ["app.ts", "app/**/*.ts", "config/**/*.ts", "test/**/*.ts"]
