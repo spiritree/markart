@@ -1,4 +1,4 @@
-export const middleware: Array<string> = [
+export const middlewareList: Array<string> = [
   'error',
   'koaBody',
   'koaHelmet',

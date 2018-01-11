@@ -1,4 +1,4 @@
-import * as Koa from 'koa';
+import * as Koa from 'koa'
 
 export = async (ctx: Koa.Context, next: Function) => {
   const start: any = new Date()
