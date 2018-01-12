@@ -3,5 +3,6 @@ export const middlewareList: Array<string> = [
   'koaBody',
   'koaHelmet',
   'logger',
+  'initAdmin',
   'restc',
 ];

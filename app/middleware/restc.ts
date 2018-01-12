@@ -1,3 +1,3 @@
-import * as restc from 'restc'
+import * as restc from "restc";
 
-export = restc.koa2()
+export = restc.koa2();

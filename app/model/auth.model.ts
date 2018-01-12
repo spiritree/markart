@@ -1,28 +1,35 @@
-import * as crypto from 'crypto'
-import * as config from '../../config'
-import * as mongoose from 'mongoose'
+import * as mongoose from "mongoose";
+import * as config from "../../config";
+import Crypto from "../utils/crypto";
+
+interface AuthModel extends mongoose.Document {
+  name: string;
+  username: string;
+  slogan: string;
+  gravatar: string;
+  password: string;
+}
 
 const authSchema = new mongoose.Schema({
+  // 名字
+  name: { type: String, default: "" },
 
-	// 名字
-	name: { type: String, default: '' },
+  username: {
+    type: String,
+    default: config.AUTH.defaultUsername
+  },
 
-	username: {
-		type: String,
-		default: config.AUTH.defaultUsername
-	},
+  // 签名
+  slogan: { type: String, default: "" },
 
-	// 签名
-	slogan: { type: String, default: '' },
+  // 头像
+  gravatar: { type: String, default: "" },
 
-	// 头像
-	gravatar: { type: String, default: '' },
+  // 密码
+  password: {
+    type: String,
+    default: Crypto.encrypt(config.AUTH.defaultPassword)
+  }
+});
 
-	// 密码
-	password: { 
-		type: String,
-		default: crypto.createHash('md5').update(config.AUTH.defaultPassword).digest('hex')
-	}
-})
-
-export const Auth = mongoose.model('Auth', authSchema)
+export default mongoose.model<AuthModel>("Auth", authSchema);

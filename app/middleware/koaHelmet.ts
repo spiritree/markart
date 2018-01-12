@@ -1,3 +1,3 @@
-import * as koaHelmet from 'koa-helmet'
+import * as koaHelmet from "koa-helmet";
 
-export = koaHelmet()
+export = koaHelmet();

@@ -1,10 +1,10 @@
-const argv = require('yargs').argv
+const argv = require("yargs").argv;
 
 export const MONGODB = {
-	uri: `mongodb://127.0.0.1:${argv.dbport || '27017'}/nodeblog`,
-	username: argv.db_username || 'DB_username',
-	password: argv.db_password || 'DB_password'
-}
+  uri: `mongodb://127.0.0.1:${argv.dbport || "27017"}/nodeblog`,
+  username: argv.db_username || "DB_username",
+  password: argv.db_password || "DB_password"
+};
 
 // exports.QINIU = {
 // 	accessKey: argv.qn_accessKey || 'your_qqn_accessKey',
@@ -15,10 +15,10 @@ export const MONGODB = {
 // }
 
 export const AUTH = {
-	jwtTokenSecret: argv.auth_key || 'nodeblog',
-	defaultUsername: argv.auth_default_username || 'spiritree',
-	defaultPassword: argv.auth_default_password || '123456'
-}
+  jwtTokenSecret: argv.auth_key || "nodeblog",
+  defaultUsername: argv.auth_default_username || "spiritree",
+  defaultPassword: argv.auth_default_password || "123456"
+};
 
 // exports.EMAIL = {
 // 	account: argv.EMAIL_account || 'your_EMAIL_account',
@@ -31,15 +31,15 @@ export const AUTH = {
 // }
 
 export const APP = {
-	ROOT_PATH: '/api',
-	LIMIT: 16,
-	PORT: 8001
-}
+  ROOT_PATH: "/api",
+  LIMIT: 16,
+  PORT: 8001
+};
 
 export const INFO = {
-	name: 'spiritree_blog',
-	version: '1.0.0',
-	author: 'spiritree',
-	site: '',
-	powered: ['Vue2', 'Nuxt.js', 'Node.js', 'MongoDB', 'koa', 'Nginx']
-}
+  name: "spiritree_blog",
+  version: "1.0.0",
+  author: "spiritree",
+  site: "",
+  powered: ["Vue2", "Nuxt.js", "Node.js", "MongoDB", "koa", "Nginx"]
+};
