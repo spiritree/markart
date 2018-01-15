@@ -1,5 +1,7 @@
+import * as config from "../../config";
+
 export class HomeService {
-  public static default(): string {
-    return 'hello world'
+  public static info(): object {
+    return config.INFO;
   }
 }

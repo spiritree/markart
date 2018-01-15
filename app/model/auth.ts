@@ -1,6 +1,7 @@
 import * as mongoose from "mongoose";
 import * as config from "../../config";
 import Crypto from "../utils/crypto";
+import { Schema } from 'mongoose';
 
 interface AuthModel extends mongoose.Document {
   name: string;
@@ -10,7 +11,7 @@ interface AuthModel extends mongoose.Document {
   password: string;
 }
 
-const authSchema = new mongoose.Schema({
+const authSchema: Schema = new mongoose.Schema({
   // 名字
   name: { type: String, default: "" },
 

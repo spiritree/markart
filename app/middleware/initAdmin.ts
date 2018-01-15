@@ -1,6 +1,6 @@
 import * as config from "../../config";
 import * as Koa from "koa";
-import Auth from "../model/auth.model";
+import Auth from "../model/auth";
 import Crypto from "../utils/crypto";
 
 // 初始化管理员账号中间件(当然这些中间件只有用户访问改网址才会执行)
