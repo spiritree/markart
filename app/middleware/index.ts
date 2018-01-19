@@ -5,4 +5,5 @@ export const middlewareList: Array<string> = [
   'logger',
   'initAdmin',
   'restc',
+  'interceptor'
 ];
