@@ -1,7 +1,15 @@
-import Article from "../model/article";
-import Auth from "../utils/auth";
+import Article from '../model/article';
+import Auth from '../utils/auth';
 
 export class ArticleService {
+  /**
+   * 获取文章列表
+   * @static
+   * @param {ctx}
+   * @param {queryParams} 
+   * @returns {ctx?, result?, message}
+   * @memberof ArticleService
+   */
   public static async getArticleList(ctx: any, queryParams: any) {
     const {
       current_page = 1,
@@ -85,7 +93,6 @@ export class ArticleService {
     const article = await Article.paginate(querys, options).catch((err: any) =>
       ctx.throw(500, err)
     );
-    console.log(article);
     if (article) {
       const result = {
         pagination: {
@@ -94,16 +101,23 @@ export class ArticleService {
           total_page: article.pages,
           page_size: article.limit
         },
-        list: article.docs,
-        message: "列表数据获取成功"
+        list: article.docs
       };
-      return result;
+      return {ctx, result, message: "列表数据获取成功" };
     } else {
       const message: string = "获取列表数据失败";
       return message;
     }
   }
 
+  /**
+   * 
+   * @static
+   * @param {ctx} 
+   * @param {body}
+   * @returns {ctx?, message}
+   * @memberof ArticleService
+   */
   public static async postArticle(ctx: any, body: any) {
     const article = new Article(body)
       .save()
@@ -117,6 +131,14 @@ export class ArticleService {
     }
   }
 
+  /**
+   * 
+   * @static
+   * @param {ctx} 
+   * @param {id}
+   * @returns {ctx?, message}
+   * @memberof ArticleService
+   */
   public static async getArticleDetail(ctx: any, id: any) {
     const _id = id;
 
@@ -139,6 +161,14 @@ export class ArticleService {
     }
   }
 
+  /**
+   * 
+   * @static
+   * @param {ctx} 
+   * @param {id}
+   * @returns {ctx?, message}
+   * @memberof ArticleService
+   */
   public static async deleteArticle(ctx: any, id: any) {
     const _id = id;
 
@@ -158,6 +188,15 @@ export class ArticleService {
     }
   }
 
+  /**
+   * 
+   * @static
+   * @param {ctx} 
+   * @param {id}
+   * @param {body}
+   * @returns {ctx?, message}
+   * @memberof ArticleService
+   */
   public static async putArticle(ctx: any, id: any, body: any) {
     const _id = id;
 
@@ -179,7 +218,7 @@ export class ArticleService {
 
     const article = await Article.findByIdAndUpdate(
       _id,
-      ctx.request.body
+      body
     ).catch((err: any) => ctx.throw(500, err));
     if (article) {
       return { ctx, message: "更新文章成功" };
@@ -189,17 +228,24 @@ export class ArticleService {
     }
   }
 
+  /**
+   * 
+   * @static
+   * @param {ctx} 
+   * @param {id}
+   * @param {body}
+   * @returns {ctx?, message}
+   * @memberof ArticleService
+   */
   public static async patchArticle(ctx: any, id: any, body: any) {
     const _id = id;
-
+    console.log('patchart', _id)
     const { state, publish } = body;
-
     const querys: any = {};
 
     if (state) querys.state = state;
 
-    if (publish) querys.publish = publish;
-
+    if (publish) querys.publish = Number(publish);
     if (!_id) {
       const message: string = "无效参数";
       return message;
@@ -208,6 +254,7 @@ export class ArticleService {
     const article = await Article.findByIdAndUpdate(_id, querys).catch(
       (err: any) => ctx.throw(500, err)
     );
+    
     if (article) {
       return { ctx, message: "更新文章状态成功" };
     } else {
@@ -216,6 +263,13 @@ export class ArticleService {
     }
   }
 
+  /**
+   * 
+   * @static
+   * @param {ctx} 
+   * @returns {ctx?, result?, message}
+   * @memberof ArticleService
+   */
   public static async getAllArticle(ctx: any) {
     // const current_page = 1
     // const page_size = 10000

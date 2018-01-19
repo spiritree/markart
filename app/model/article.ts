@@ -10,7 +10,6 @@ interface ArticleModel extends mongoose.Document {
   title: string;
   keyword: string;
   descript: string;
-  category: any;
   tag: any;
   content: string;
   state: number;
@@ -19,7 +18,6 @@ interface ArticleModel extends mongoose.Document {
   create_at: Date;
   update_at: Date;
   meta: any;
-  extends: any;
 }
 
 const articleSchema: Schema = new mongoose.Schema({
@@ -33,9 +31,9 @@ const articleSchema: Schema = new mongoose.Schema({
   descript: { type: String, required: true },
 
   // 文章分类
-  category: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true }
-  ],
+  // category: [
+  //   { type: mongoose.Schema.Types.ObjectId, ref: "Category" }
+  // ],
 
   // 标签
   tag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
@@ -63,15 +61,15 @@ const articleSchema: Schema = new mongoose.Schema({
     views: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },
     comments: { type: Number, default: 0 }
-  },
+  }
 
   // 自定义扩展
-  extends: [
-    {
-      name: { type: String, validate: /\S+/ },
-      value: { type: String, validate: /\S+/ }
-    }
-  ]
+  // extends: [
+  //   {
+  //     name: { type: String, validate: /\S+/ },
+  //     value: { type: String, validate: /\S+/ }
+  //   }
+  // ]
 });
 
 // 转化成普通 JavaScript 对象
@@ -87,13 +85,14 @@ articleSchema.plugin(autoIncrement.plugin, {
 });
 
 // 时间更新
-articleSchema.pre("findOneAndUpdate", next => {
+articleSchema.pre("findOneAndUpdate", function(next) {
+  // 不用箭头函数因为将this的指向静态化了
   this.findOneAndUpdate({}, { update_at: Date.now() });
   next();
 });
 
 // 列表时用的文章内容虚拟属性
-articleSchema.virtual("t_content").get(() => {
+articleSchema.virtual("t_content").get(function() {
   const content = this.content;
   return !!content ? content.substring(0, 130) : content;
 });
