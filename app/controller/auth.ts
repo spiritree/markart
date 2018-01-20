@@ -1,6 +1,6 @@
-import { AuthService } from "../service";
 import MessageHandler from "../utils/messageHandler";
 import { Controller, Ctx, Get, Post, Put, Body } from "trafficlight";
+import { AuthService } from "../service/auth";
 
 @Controller("/auth")
 export default class AuthController {

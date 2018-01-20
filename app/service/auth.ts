@@ -27,7 +27,7 @@ export class AuthService {
           },
           config.AUTH.jwtTokenSecret
         );
-        return { token, lifeTime: Math.floor(Date.now() / 1000) + 60 * 60 };
+        return { currentAuthority: "admin", token, lifeTime: Math.floor(Date.now() / 1000) + 60 * 60 };
       } else {
         const message: string = "密码错误";
         return message;
@@ -37,6 +37,7 @@ export class AuthService {
       return message;
     }
   }
+
   /**
    * 获取账户信息
    * @static
@@ -50,6 +51,7 @@ export class AuthService {
     );
     return auth;
   }
+  
   /**
    * 修改账户资料
    * @static
