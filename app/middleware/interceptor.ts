@@ -1,5 +1,5 @@
 import * as Koa from "koa";
-import authIsVerified from '../utils/auth'
+import Auth from '../utils/auth'
 
 export = async (ctx: Koa.Context, next: Function) => {
 
@@ -40,7 +40,7 @@ export = async (ctx: Koa.Context, next: Function) => {
 	// 排除auth的post请求 && 评论的post请求 && like请求 && hero post
 	const isLike = Object.is(ctx.request.url, '/api/like') && Object.is(ctx.request.method, 'POST');
 	const isPostAuth = Object.is(ctx.request.url, '/api/auth') && Object.is(ctx.request.method, 'POST');
-	const isLogin = Object.is(ctx.request.url, '/api/login') && Object.is(ctx.request.method, 'POST');
+	const isLogin = Object.is(ctx.request.url, '/api/auth/login') && Object.is(ctx.request.method, 'POST');
 	const isHero = Object.is(ctx.request.url, '/api/hero') && Object.is(ctx.request.method, 'POST');
 	const isPostComment = Object.is(ctx.request.url, '/api/comment') && Object.is(ctx.request.method, 'POST');
 	if (isLike || isPostAuth || isPostComment || isLogin || isHero) {
@@ -49,10 +49,10 @@ export = async (ctx: Koa.Context, next: Function) => {
 	};
 
 	// 拦截所有非管路员的非get请求
-	// if (!authIsVerified(ctx.request) && !Object.is(ctx.request.method, 'GET')) {
-	// 	ctx.throw(401, { code: -2, message: '身份验证失败！' })
-	// 	return false;
-	// };
+	if (!Auth.authIsVerified(ctx.request) && !Object.is(ctx.request.method, 'GET')) {
+		ctx.throw(401, { code: -2, message: '身份验证失败！' })
+		return false;
+	};
 
 	await next();
 }
