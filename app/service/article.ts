@@ -5,12 +5,13 @@ export class ArticleService {
   /**
    * 获取文章列表
    * @static
-   * @param {ctx}
-   * @param {queryParams} 
-   * @returns {ctx?, result?, message}
+   * @param {*} body
+   * @param {*} queryParams
+   * @returns {Promise<Object>} ctx?, result?, message
    * @memberof ArticleService
    */
-  public static async getArticleList(ctx: any, queryParams: any) {
+
+  public static async getArticleList(ctx: any, queryParams: any): Promise<any> {
     const {
       current_page = 1,
       page_size = 10,
@@ -84,10 +85,10 @@ export class ArticleService {
     }
 
     // 如果是前台请求，则重置公开状态和发布状态
-    if (!Auth.authIsVerified(ctx.request)) {
-      querys.state = 1;
-      querys.publish = 1;
-    }
+    // if (!Auth.authIsVerified(ctx.request)) {
+    //   querys.state = 1;
+    //   querys.publish = 1;
+    // }
 
     // 查询
     const article = await Article.paginate(querys, options).catch((err: any) =>
@@ -113,12 +114,12 @@ export class ArticleService {
   /**
    * 
    * @static
-   * @param {ctx} 
-   * @param {body}
+   * @param {*} ctx
+   * @param {*} body
    * @returns {ctx?, message}
    * @memberof ArticleService
    */
-  public static async postArticle(ctx: any, body: any) {
+  public static async postArticle(ctx: any, body: any): Promise<any> {
     const article = new Article(body)
       .save()
       .catch((err: any) => ctx.throw(500, err));
@@ -134,12 +135,12 @@ export class ArticleService {
   /**
    * 
    * @static
-   * @param {ctx} 
-   * @param {id}
+   * @param {*}  ctx
+   * @param {*} id
    * @returns {ctx?, message}
    * @memberof ArticleService
    */
-  public static async getArticleDetail(ctx: any, id: any) {
+  public static async getArticleDetail(ctx: any, id: any): Promise<any> {
     const _id = id;
 
     if (!_id) {
@@ -164,12 +165,12 @@ export class ArticleService {
   /**
    * 
    * @static
-   * @param {ctx} 
-   * @param {id}
+   * @param {*} ctx
+   * @param {*} id
    * @returns {ctx?, message}
    * @memberof ArticleService
    */
-  public static async deleteArticle(ctx: any, id: any) {
+  public static async deleteArticle(ctx: any, id: any): Promise<any> {
     const _id = id;
 
     if (!_id) {
@@ -191,13 +192,13 @@ export class ArticleService {
   /**
    * 
    * @static
-   * @param {ctx} 
-   * @param {id}
-   * @param {body}
+   * @param {*} ctx
+   * @param {*} id
+   * @param {*} body
    * @returns {ctx?, message}
    * @memberof ArticleService
    */
-  public static async putArticle(ctx: any, id: any, body: any) {
+  public static async putArticle(ctx: any, id: any, body: any): Promise<any> {
     const _id = id;
 
     const { title, keyword } = body;
@@ -229,15 +230,15 @@ export class ArticleService {
   }
 
   /**
-   * 
+   * 修改文章状态
    * @static
-   * @param {ctx} 
-   * @param {id}
-   * @param {body}
+   * @param {*} ctx
+   * @param {*} id
+   * @param {*} body
    * @returns {ctx?, message}
    * @memberof ArticleService
    */
-  public static async patchArticle(ctx: any, id: any, body: any) {
+  public static async patchArticle(ctx: any, id: any, body: any): Promise<any> {
     const _id = id;
     console.log('patchart', _id)
     const { state, publish } = body;
@@ -266,11 +267,11 @@ export class ArticleService {
   /**
    * 
    * @static
-   * @param {ctx} 
+   * @param {*} ctx
    * @returns {ctx?, result?, message}
    * @memberof ArticleService
    */
-  public static async getAllArticle(ctx: any) {
+  public static async getAllArticle(ctx: any): Promise<any> {
     // const current_page = 1
     // const page_size = 10000
 

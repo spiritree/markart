@@ -4,15 +4,15 @@ import Auth from "../utils/auth";
 
 export class TagService {
   /**
-   *
+   * 获取标签列表
    *
    * @static
-   * @param {ctx}
-   * @param {queryParams}
-   * @returns {ctx?, queryParams?, message}
+   * @param {*} ctx
+   * @param {*} queryParams
+   * @returns {Promise<any>} ctx?, queryParams?, message
    * @memberof TagService
    */
-  public static async getTagList(ctx: any, queryParams: any) {
+  public static async getTagList(ctx: any, queryParams: any): Promise<any> {
     const { current_page = 1, page_size = 18, keyword = "" } = queryParams;
 
     // 过滤条件
@@ -76,15 +76,15 @@ export class TagService {
   }
 
   /**
-   *
+   * 添加标签
    *
    * @static
-   * @param {ctx}
-   * @param {body}
-   * @returns {ctx?, message}
+   * @param {*} ctx
+   * @param {*} body
+   * @returns {Promise<any>} ctx?, message
    * @memberof TagService
    */
-  public static async postTag(ctx: any, body: any) {
+  public static async postTag(ctx: any, body: any): Promise<any> {
     const { name, descript } = body;
 
     // 添加前，先验证是否有相同 name
@@ -107,7 +107,16 @@ export class TagService {
     }
   }
 
-  public static async sortTag(ctx: any, body: any) {
+  /**
+   * 排序标签
+   * 
+   * @static
+   * @param {*} ctx 
+   * @param {*} body 
+   * @returns {Promise<any>} ctx?, message
+   * @memberof TagService
+   */
+  public static async sortTag(ctx: any, body: any): Promise<any> {
     const { ids } = body;
 
     try {
@@ -125,7 +134,17 @@ export class TagService {
     }
   }
 
-  public static async putTag(ctx: any, id: any, body: any) {
+  /**
+   * 修改标签
+   * 
+   * @static
+   * @param {*} ctx 
+   * @param {*} id 
+   * @param {*} body 
+   * @returns {Promise<any>} ctx?, message
+   * @memberof TagService
+   */
+  public static async putTag(ctx: any, id: any, body: any): Promise<any> {
     const _id = id;
     const { name, descript } = body;
     console.log('tag',_id)
@@ -147,8 +166,16 @@ export class TagService {
     }
   }
 
-  // 删除标签
-  public static async deleteTag(ctx: any, id: any) {
+  /**
+   * 删除标签
+   * 
+   * @static
+   * @param {*} ctx 
+   * @param {*} id 
+   * @returns {Promise<any>} ctx?, message
+   * @memberof TagService
+   */
+  public static async deleteTag(ctx: any, id: any): Promise<any> {
     const _id = id;
 
     if (!_id) {
