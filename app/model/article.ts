@@ -6,10 +6,22 @@ const autoIncrement = require("mongoose-auto-increment-fix");
 // 自增ID初始化
 autoIncrement.initialize(mongoose.connection);
 
+interface Meta {
+  views: number;
+  likes: number;
+  comments: number;
+}
+
+interface Extend {
+  name: string;
+  value: string;
+}
+
 interface ArticleModel extends mongoose.Document {
   title: string;
   keyword: string;
   descript: string;
+  category: any;
   tag: any;
   content: string;
   state: number;
@@ -17,7 +29,8 @@ interface ArticleModel extends mongoose.Document {
   thumb: string;
   create_at: Date;
   update_at: Date;
-  meta: any;
+  meta: Meta;
+  extends: Extend[];
 }
 
 const articleSchema: Schema = new mongoose.Schema({
@@ -31,9 +44,7 @@ const articleSchema: Schema = new mongoose.Schema({
   descript: { type: String, required: true },
 
   // 文章分类
-  // category: [
-  //   { type: mongoose.Schema.Types.ObjectId, ref: "Category" }
-  // ],
+  category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
 
   // 标签
   tag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
@@ -61,15 +72,15 @@ const articleSchema: Schema = new mongoose.Schema({
     views: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },
     comments: { type: Number, default: 0 }
-  }
+  },
 
   // 自定义扩展
-  // extends: [
-  //   {
-  //     name: { type: String, validate: /\S+/ },
-  //     value: { type: String, validate: /\S+/ }
-  //   }
-  // ]
+  extends: [
+    {
+      name: { type: String, validate: /\S+/ },
+      value: { type: String, validate: /\S+/ }
+    }
+  ]
 });
 
 // 转化成普通 JavaScript 对象
