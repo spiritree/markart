@@ -3,7 +3,8 @@ import {
   AuthController,
   HomeController,
   ArticleController,
-  TagController
+  TagController,
+  CommentController
 } from "./controller";
 import { bindRoutes } from "trafficlight";
 
@@ -13,7 +14,8 @@ export default function(app: any) {
     HomeController,
     AuthController,
     ArticleController,
-    TagController
+    TagController,
+    CommentController
   ]);
   app.use(routerRoutes.routes());
   app.use(routerRoutes.allowedMethods());
