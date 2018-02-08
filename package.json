@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf app/**/*.{js,map} app/*.{js,map} config/**/*.{js,map}",
     "start": "NODE_ENV=production node --harmony index.js",
-    "dev": "NODE_ENV=development nodemon -w app -x ts-node app.ts",
+    "dev": "NODE_ENV=development nodemon -w app -x ts-node --inspect app.ts",
     "updatedb": "node ./node_modules/geoip-lite/scripts/updatedb.js",
     "tsc": "tsc -p tsconfig.json",
     "tsc:w": "tsc -p tsconfig.json -w"
@@ -50,6 +50,7 @@
     "yargs": "^8.0.2"
   },
   "devDependencies": {
+    "@types/geoip-lite": "^1.1.29",
     "@types/jsonwebtoken": "^7.2.5",
     "@types/koa": "^2.0.43",
     "@types/koa-helmet": "^3.1.2",
