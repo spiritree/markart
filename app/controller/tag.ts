@@ -49,7 +49,7 @@ export default class TagController {
   }
 
   @Put("/:id")
-  public async putTag(@Ctx() ctx: any, @Param("id") id: any, @Body() body: any): Promise<Object> {
+  public async putTag(@Ctx() ctx: any, @Param("id") id: string, @Body() body: any): Promise<Object> {
     const res = await TagService.putTag(ctx, id, body)
     if (typeof(res) === 'string') {
       return MessageHandler.handleError({ ctx, message: res });
@@ -63,7 +63,7 @@ export default class TagController {
   }
 
   @Delete("/:id")
-  public async deleteTag(@Ctx() ctx: any, @Param("id") id: any): Promise<Object> {
+  public async deleteTag(@Ctx() ctx: any, @Param("id") id: string): Promise<Object> {
     const res = await TagService.deleteTag(ctx, id)
     if (typeof(res) === 'string') {
       return MessageHandler.handleError({ ctx, message: res });

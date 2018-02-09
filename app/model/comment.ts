@@ -12,7 +12,7 @@ interface Author {
   site: string;
 }
 
-interface CommentModel extends mongoose.Document {
+interface ICommentModel extends mongoose.Document {
   post_id: number;
   post_title: string;
   pid: number;
@@ -25,8 +25,8 @@ interface CommentModel extends mongoose.Document {
   agent: string;
   author: Author;
   state: number;
-  create_at: number;
-  update_at: number;
+  create_at: Date;
+  update_at: Date;
   extend: any;
 }
 
@@ -96,4 +96,4 @@ commentSchema.pre("findOneAndUpdate", function(next) {
   next();
 });
 
-export default mongoose.model<CommentModel>("Comment", commentSchema);
+export default mongoose.model<ICommentModel>("Comment", commentSchema);

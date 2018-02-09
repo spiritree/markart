@@ -1,6 +1,7 @@
 import Tag from "../model/tag";
 import Article from "../model/article";
 import Auth from "../utils/auth";
+import { IResult } from '../utils/messageHandler';
 
 export class TagService {
   /**
@@ -9,10 +10,10 @@ export class TagService {
    * @static
    * @param {*} ctx
    * @param {*} queryParams
-   * @returns {Promise<any>} ctx?, queryParams?, message
+   * @returns {Promise<IResult | string>}
    * @memberof TagService
    */
-  public static async getTagList(ctx: any, queryParams: any): Promise<any> {
+  public static async getTagList(ctx: any, queryParams: any): Promise<IResult | string> {
     const { current_page = 1, page_size = 18, keyword = "" } = queryParams;
 
     // 过滤条件
@@ -27,7 +28,7 @@ export class TagService {
       name: new RegExp(keyword)
     };
 
-    const tag = await Tag.paginate(querys, options).catch((err: any) =>
+    const tag = await Tag.paginate(querys, options).catch(err =>
       ctx.throw(500, err)
     );
     if (tag) {
@@ -77,18 +78,18 @@ export class TagService {
 
   /**
    * 添加标签
-   *
+   * 
    * @static
-   * @param {*} ctx
-   * @param {*} body
-   * @returns {Promise<any>} ctx?, message
+   * @param {*} ctx 
+   * @param {*} body 
+   * @returns {(Promise<IResult | string>)} 
    * @memberof TagService
    */
-  public static async postTag(ctx: any, body: any): Promise<any> {
+  public static async postTag(ctx: any, body: any): Promise<IResult | string> {
     const { name, descript } = body;
 
     // 添加前，先验证是否有相同 name
-    const verifyTag = await Tag.find({ name }).catch((err: any) =>
+    const verifyTag = await Tag.find({ name }).catch(err =>
       ctx.throw(500, err)
     );
     if (verifyTag && verifyTag.length !== 0) {
@@ -98,35 +99,35 @@ export class TagService {
 
     const tag = await new Tag({ name, descript })
       .save()
-      .catch((err: any) => ctx.throw(500, err));
+      .catch(err => ctx.throw(500, err));
     if (tag) {
-      return { ctx, message: "发布标签成功", result: tag };
+      return { ctx, message: "新增标签成功", result: tag };
     } else {
-      const message = "发布标签失败";
+      const message = "新增标签失败";
       return message;
     }
   }
 
   /**
    * 排序标签
-   * 
+   *
    * @static
-   * @param {*} ctx 
-   * @param {*} body 
-   * @returns {Promise<any>} ctx?, message
+   * @param {*} ctx
+   * @param {*} body
+   * @returns {Promise<IResult | string>}
    * @memberof TagService
    */
-  public static async sortTag(ctx: any, body: any): Promise<any> {
+  public static async sortTag(ctx: any, body: any): Promise<IResult | string> {
     const { ids } = body;
 
     try {
       let i = 0;
       for (; i < ids.length; i++) {
-        await Tag.findByIdAndUpdate(ids[i], { sort: i + 1 }).catch((err: any) =>
+        await Tag.findByIdAndUpdate(ids[i], { sort: i + 1 }).catch(err =>
           ctx.throw(500, err)
         );
       }
-      return { ctx, message: "排序成功"}
+      return { ctx, message: "排序成功" };
     } catch (err) {
       console.log(err);
       const message = "排序失败";
@@ -136,18 +137,17 @@ export class TagService {
 
   /**
    * 修改标签
-   * 
+   *
    * @static
-   * @param {*} ctx 
-   * @param {*} id 
-   * @param {*} body 
-   * @returns {Promise<any>} ctx?, message
+   * @param {*} ctx
+   * @param {*} id
+   * @param {*} body
+   * @returns {Promise<IResult | string>}
    * @memberof TagService
    */
-  public static async putTag(ctx: any, id: any, body: any): Promise<any> {
+  public static async putTag(ctx: any, id: string, body: any): Promise<IResult | string> {
     const _id = id;
     const { name, descript } = body;
-    console.log('tag',_id)
     if (!_id) {
       const message = "无效参数";
       return message;
@@ -157,9 +157,9 @@ export class TagService {
       _id,
       { name, descript },
       { new: true }
-    ).catch((err: any) => ctx.throw(500, err));
+    ).catch(err => ctx.throw(500, err));
     if (tag) {
-      return { ctx, message: "修改标签成功"}
+      return { ctx, message: "修改标签成功" };
     } else {
       const message = "修改标签失败";
       return message;
@@ -168,14 +168,14 @@ export class TagService {
 
   /**
    * 删除标签
-   * 
+   *
    * @static
-   * @param {*} ctx 
-   * @param {*} id 
-   * @returns {Promise<any>} ctx?, message
+   * @param {*} ctx
+   * @param {*} id
+   * @returns {Promise<IResult | string>}
    * @memberof TagService
    */
-  public static async deleteTag(ctx: any, id: any): Promise<any> {
+  public static async deleteTag(ctx: any, id: string): Promise<IResult | string> {
     const _id = id;
 
     if (!_id) {
@@ -183,11 +183,11 @@ export class TagService {
       return message;
     }
 
-    const tag = await Tag.findByIdAndRemove(_id).catch((err: any) =>
+    const tag = await Tag.findByIdAndRemove(_id).catch(err =>
       ctx.throw(500, err)
     );
     if (tag) {
-      return { ctx, message: "删除标签成功"}
+      return { ctx, message: "删除标签成功" };
     } else {
       const message = "删除标签失败";
       return message;

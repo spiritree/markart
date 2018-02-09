@@ -2,6 +2,7 @@ import Article from "../model/article";
 import Comment from "../model/comment";
 import Auth from "../utils/auth";
 import * as geoip from "geoip-lite";
+import { IResult } from '../utils/messageHandler';
 
 // 更新当前所受影响的文章的评论聚合数据
 
@@ -45,10 +46,13 @@ export class CommentService {
    * @static
    * @param {*} ctx
    * @param {*} queryParams
-   * @returns {Promise<any>}
+   * @returns {Promise<IResult | string>}
    * @memberof CommentService
    */
-  public static async getCommentList(ctx: any, queryParams: any): Promise<any> {
+  public static async getCommentList(
+    ctx: any,
+    queryParams: any
+  ): Promise<IResult | string> {
     let {
       sort = -1,
       current_page = 1,
@@ -114,7 +118,7 @@ export class CommentService {
           total_page: comments.pages,
           per_page: options.limit
         },
-        data: comments.docs
+        list: comments.docs
       };
       return { ctx, result, message: "获取评论列表成功" };
     } else {
@@ -129,10 +133,13 @@ export class CommentService {
    * @static
    * @param {*} ctx
    * @param {*} body
-   * @returns {Promise<any>}
+   * @returns {Promise<IResult | string>}
    * @memberof CommentService
    */
-  public static async postComment(ctx: any, body: any): Promise<any> {
+  public static async postComment(
+    ctx: any,
+    body: any
+  ): Promise<IResult | string> {
     let comment = body;
     // 获取ip地址以及物理地理地址
     const ip = (
@@ -178,15 +185,18 @@ export class CommentService {
   }
 
   /**
-   *
-   *
+   * 
+   * 
    * @static
-   * @param {*} ctx
-   * @param {*} id
-   * @returns {Promise<any>}
+   * @param {*} ctx 
+   * @param {string} id 
+   * @returns {(Promise<IResult | string>)} 
    * @memberof CommentService
    */
-  public static async deleteComment(ctx: any, id: string): Promise<any> {
+  public static async deleteComment(
+    ctx: any,
+    id: string
+  ): Promise<IResult | string> {
     const _id = id;
 
     const post_ids = Array.of(Number(ctx.query.post_ids));
@@ -208,28 +218,32 @@ export class CommentService {
    *
    * @static
    * @param {*} ctx
-   * @param {*} id
+   * @param {string} id
    * @param {*} body
-   * @returns {Promise<any>}
+   * @returns {Promise<IResult | string>}
    * @memberof CommentService
    */
-  public static async patchComment(ctx: any, id: any, body: any): Promise<any> {
+  public static async patchComment(
+    ctx: any,
+    id: string,
+    body: any
+  ): Promise<IResult | string> {
     const _id = id;
 
-    let { post_ids, state } = body;
+    let { post_id, state } = body;
 
-    if (!state || !post_ids) {
+    if (!state || !post_id) {
       ctx.throw(401, "参数无效");
       return false;
     }
 
-    post_ids = Array.of(Number(post_ids));
+    post_id = Array.of(Number(post_id));
 
     const res = await Comment.findByIdAndUpdate(_id, { state }).catch(err =>
       ctx.throw(500, err)
     );
     if (res) {
-      updateArticleCommentCount(post_ids);
+      updateArticleCommentCount(post_id);
       return { ctx, message: "修改评论状态成功" };
     } else {
       const message: string = "修改评论状态失败";

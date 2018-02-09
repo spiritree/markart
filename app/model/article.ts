@@ -17,7 +17,7 @@ interface Extend {
   value: string;
 }
 
-interface ArticleModel extends mongoose.Document {
+interface IArticleModel extends mongoose.Document {
   title: string;
   keyword: string;
   descript: string;
@@ -108,4 +108,4 @@ articleSchema.virtual("t_content").get(function() {
   return !!content ? content.substring(0, 130) : content;
 });
 
-export default mongoose.model<ArticleModel>("Article", articleSchema);
+export default mongoose.model<IArticleModel>("Article", articleSchema);

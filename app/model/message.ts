@@ -15,7 +15,7 @@ interface IMessageModel extends mongoose.Document {
   range: string;
   country: string;
   agent: string;
-  create_time: Date;
+  create_at: Date;
 }
 
 const messageSchema: Schema = new mongoose.Schema({
@@ -40,7 +40,7 @@ const messageSchema: Schema = new mongoose.Schema({
   agent: { type: String, validate: /\S+/ },
 
   // 发布日期
-  create_time: { type: Date, default: Date.now }
+  create_at: { type: Date, default: Date.now }
 });
 
 messageSchema.plugin(mongoosePaginate);

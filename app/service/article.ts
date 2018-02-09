@@ -1,5 +1,6 @@
-import Article from '../model/article';
-import Auth from '../utils/auth';
+import Article from "../model/article";
+import Auth from "../utils/auth";
+import { IResult } from "../utils/messageHandler";
 
 export class ArticleService {
   /**
@@ -7,17 +8,20 @@ export class ArticleService {
    * @static
    * @param {*} body
    * @param {*} queryParams
-   * @returns {Promise<Object>} ctx?, result?, message
+   * @returns {Promise<IResult | string>}
    * @memberof ArticleService
    */
-
-  public static async getArticleList(ctx: any, queryParams: any): Promise<any> {
+  public static async getArticleList(
+    ctx: any,
+    queryParams: any
+  ): Promise<IResult | string> {
     const {
       current_page = 1,
       page_size = 10,
       keyword = "",
       state = 1,
       publish = 1,
+      category,
       tag,
       type,
       date
@@ -28,7 +32,7 @@ export class ArticleService {
       sort: { create_at: -1 },
       page: Number(current_page),
       limit: Number(page_size),
-      populate: ["tag"],
+      populate: ["category", "tag"],
       select: "-content"
     };
 
@@ -80,8 +84,14 @@ export class ArticleService {
       }
     }
 
+    // 标签id查询
     if (tag) {
       querys.tag = tag;
+    }
+
+    // 分类id查询
+    if (category) {
+      querys.category = category;
     }
 
     // 如果是前台请求，则重置公开状态和发布状态
@@ -91,7 +101,7 @@ export class ArticleService {
     // }
 
     // 查询
-    const article = await Article.paginate(querys, options).catch((err: any) =>
+    const article = await Article.paginate(querys, options).catch(err =>
       ctx.throw(500, err)
     );
     if (article) {
@@ -104,7 +114,7 @@ export class ArticleService {
         },
         list: article.docs
       };
-      return {ctx, result, message: "列表数据获取成功" };
+      return { ctx, result, message: "列表数据获取成功" };
     } else {
       const message: string = "获取列表数据失败";
       return message;
@@ -112,35 +122,48 @@ export class ArticleService {
   }
 
   /**
-   * 
+   * 发布文章
+   *
    * @static
    * @param {*} ctx
    * @param {*} body
-   * @returns {ctx?, message}
+   * @returns {(Promise<IResult | string>)}
    * @memberof ArticleService
    */
-  public static async postArticle(ctx: any, body: any): Promise<any> {
-    const article = new Article(body)
+  public static async postArticle(
+    ctx: any,
+    body: any
+  ): Promise<IResult | string> {
+    if (!body.title || !body.content) {
+      const message: string = "内容为空";
+      return message;
+    }
+
+    const article = await new Article(body)
       .save()
-      .catch((err: any) => ctx.throw(500, err));
+      .catch(err => ctx.throw(500, err));
 
     if (article) {
       return { ctx, message: "添加文章成功" };
     } else {
-      const message = "添加文章失败";
+      const message: string = "添加文章失败";
       return message;
     }
   }
 
   /**
-   * 
+   * 获取文章详情
+   *
    * @static
-   * @param {*}  ctx
-   * @param {*} id
-   * @returns {ctx?, message}
+   * @param {*} ctx
+   * @param {string} id
+   * @returns {(Promise<IResult | string>)}
    * @memberof ArticleService
    */
-  public static async getArticleDetail(ctx: any, id: any): Promise<any> {
+  public static async getArticleDetail(
+    ctx: any,
+    id: string
+  ): Promise<IResult | string> {
     const _id = id;
 
     if (!_id) {
@@ -149,8 +172,8 @@ export class ArticleService {
     }
 
     const article = await Article.findById(_id)
-      .populate("tag")
-      .catch((err: any) => ctx.throw(500, err));
+      .populate("category tag")
+      .catch(err => ctx.throw(500, err));
     if (article) {
       // 每次请求，views 都增加一次
       article.meta.views += 1;
@@ -163,14 +186,18 @@ export class ArticleService {
   }
 
   /**
-   * 
+   * 删除文章
+   *
    * @static
    * @param {*} ctx
-   * @param {*} id
-   * @returns {ctx?, message}
+   * @param {string} id
+   * @returns {(Promise<IResult | string>)}
    * @memberof ArticleService
    */
-  public static async deleteArticle(ctx: any, id: any): Promise<any> {
+  public static async deleteArticle(
+    ctx: any,
+    id: string
+  ): Promise<IResult | string> {
     const _id = id;
 
     if (!_id) {
@@ -178,7 +205,7 @@ export class ArticleService {
       return message;
     }
 
-    const res = await Article.findByIdAndRemove(_id).catch((err: any) =>
+    const res = await Article.findByIdAndRemove(_id).catch(err =>
       ctx.throw(500, err)
     );
     if (res) {
@@ -190,15 +217,20 @@ export class ArticleService {
   }
 
   /**
-   * 
+   * 修改文章
+   *
    * @static
    * @param {*} ctx
-   * @param {*} id
+   * @param {string} id
    * @param {*} body
-   * @returns {ctx?, message}
+   * @returns {(Promise<IResult | string>)}
    * @memberof ArticleService
    */
-  public static async putArticle(ctx: any, id: any, body: any): Promise<any> {
+  public static async putArticle(
+    ctx: any,
+    id: string,
+    body: any
+  ): Promise<IResult | string> {
     const _id = id;
 
     const { title, keyword } = body;
@@ -217,10 +249,9 @@ export class ArticleService {
       return message;
     }
 
-    const article = await Article.findByIdAndUpdate(
-      _id,
-      body
-    ).catch((err: any) => ctx.throw(500, err));
+    const article = await Article.findByIdAndUpdate(_id, body).catch(err =>
+      ctx.throw(500, err)
+    );
     if (article) {
       return { ctx, message: "更新文章成功" };
     } else {
@@ -231,16 +262,21 @@ export class ArticleService {
 
   /**
    * 修改文章状态
+   *
    * @static
    * @param {*} ctx
-   * @param {*} id
+   * @param {string} id
    * @param {*} body
-   * @returns {ctx?, message}
+   * @returns {(Promise<IResult | string>)}
    * @memberof ArticleService
    */
-  public static async patchArticle(ctx: any, id: any, body: any): Promise<any> {
+  public static async patchArticle(
+    ctx: any,
+    id: string,
+    body: any
+  ): Promise<IResult | string> {
     const _id = id;
-    console.log('patchart', _id)
+    console.log("patchart", _id);
     const { state, publish } = body;
     const querys: any = {};
 
@@ -252,10 +288,10 @@ export class ArticleService {
       return message;
     }
 
-    const article = await Article.findByIdAndUpdate(_id, querys).catch(
-      (err: any) => ctx.throw(500, err)
+    const article = await Article.findByIdAndUpdate(_id, querys).catch(err =>
+      ctx.throw(500, err)
     );
-    
+
     if (article) {
       return { ctx, message: "更新文章状态成功" };
     } else {
@@ -265,13 +301,14 @@ export class ArticleService {
   }
 
   /**
-   * 
+   * 获取所有文章列表
+   *
    * @static
    * @param {*} ctx
-   * @returns {ctx?, result?, message}
+   * @returns {(Promise<IResult | string>)}
    * @memberof ArticleService
    */
-  public static async getAllArticle(ctx: any): Promise<any> {
+  public static async getAllArticle(ctx: any): Promise<IResult | string> {
     // const current_page = 1
     // const page_size = 10000
 
@@ -336,7 +373,7 @@ export class ArticleService {
 
       return { ctx, result: yearList, message: "获取内容成功" };
     } else {
-      const message = "获取内容失败";
+      const message: string = "获取内容失败";
       return message;
     }
   }

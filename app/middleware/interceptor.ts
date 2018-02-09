@@ -13,6 +13,7 @@ export = async (ctx: Koa.Context, next: Function) => {
 	ctx.set({
 		'Access-Control-Allow-Headers': 'Authorization, Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With',
 		'Access-Control-Allow-Methods': 'PUT,PATCH,POST,GET,DELETE,OPTIONS',
+		'Access-Control-Allow-Credentials': 'true',
 		'Access-Control-Max-Age': '1728000',
 		'Content-Type': 'application/json;charset=utf-8',
 		'X-Powered-By': 'Koa'
@@ -49,10 +50,10 @@ export = async (ctx: Koa.Context, next: Function) => {
 	};
 
 	// 拦截所有非管路员的非get请求
-	if (!Auth.authIsVerified(ctx.request) && !Object.is(ctx.request.method, 'GET')) {
-		ctx.throw(401, { code: -2, message: '身份验证失败！' })
-		return false;
-	};
+	// if (!Auth.authIsVerified(ctx.request) && !Object.is(ctx.request.method, 'GET')) {
+	// 	ctx.throw(401, { code: -2, message: '身份验证失败！' })
+	// 	return false;
+	// };
 
 	await next();
 }

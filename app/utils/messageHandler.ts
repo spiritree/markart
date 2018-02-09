@@ -1,3 +1,11 @@
+import * as Koa from 'koa';
+
+export interface IResult {
+  ctx: Koa.Context;
+  result?: Object;
+  message: string;
+}
+
 export default class MessageHandler {
   /**
    * 处理成功请求

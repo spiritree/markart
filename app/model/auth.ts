@@ -1,9 +1,9 @@
 import * as mongoose from "mongoose";
 import * as config from "../../config";
 import Crypto from "../utils/crypto";
-import { Schema } from 'mongoose';
+import { Schema } from "mongoose";
 
-interface AuthModel extends mongoose.Document {
+interface IAuthModel extends mongoose.Document {
   name: string;
   username: string;
   slogan: string;
@@ -33,4 +33,4 @@ const authSchema: Schema = new mongoose.Schema({
   }
 });
 
-export default mongoose.model<AuthModel>("Auth", authSchema);
+export default mongoose.model<IAuthModel>("Auth", authSchema);

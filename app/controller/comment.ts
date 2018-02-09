@@ -36,7 +36,7 @@ export default class CommentController {
   }
 
   @Delete("/:id")
-  public async deleteComment (@Ctx() ctx: any, @Param("id") id: string) {
+  public async deleteComment (@Ctx() ctx: any, @Param("id") id: string): Promise<Object> {
     const res = await CommentService.deleteComment(ctx, id);
     if (typeof(res) === 'string') {
       return MessageHandler.handleError({ ctx, message: res });
@@ -50,7 +50,7 @@ export default class CommentController {
   }
 
   @Patch("/:id")
-  public async getAritcleDetail (@Ctx() ctx: any, @Param("id") id: string, @Body() body: any) {
+  public async getAritcleDetail (@Ctx() ctx: any, @Param("id") id: string, @Body() body: any): Promise<Object> {
     const res = await CommentService.patchComment(ctx, id, body);
     if (typeof(res) === 'string') {
       return MessageHandler.handleError({ ctx, message: res });

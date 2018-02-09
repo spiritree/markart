@@ -51,7 +51,7 @@ export default class ArticleController {
   }
 
   @Get("/:id")
-  public async getAritcleDetail (@Ctx() ctx: any, @Param("id") id: any) {
+  public async getAritcleDetail (@Ctx() ctx: any, @Param("id") id: string) {
     const res = await ArticleService.getArticleDetail(ctx, id);
     if (typeof(res) === 'string') {
       return MessageHandler.handleError({ ctx, message: res });
@@ -66,7 +66,7 @@ export default class ArticleController {
   }
 
   @Delete("/:id")
-  public async deleteArticle (@Ctx() ctx: any, @Param("id") id: any) {
+  public async deleteArticle (@Ctx() ctx: any, @Param("id") id: string) {
     const res = await ArticleService.deleteArticle(ctx, id);
     if (typeof(res) === 'string') {
       return MessageHandler.handleError({ ctx, message: res });
@@ -80,8 +80,7 @@ export default class ArticleController {
   }
 
   @Put("/:id")
-  public async putArticle (@Ctx() ctx: any, @Param("id") id: any, @Body() body: any) {
-    console.log(id)
+  public async putArticle (@Ctx() ctx: any, @Param("id") id: string, @Body() body: any) {
     const res = await ArticleService.putArticle(ctx, id, body);
     if (typeof(res) === 'string') {
       return MessageHandler.handleError({ ctx, message: res });
@@ -95,7 +94,7 @@ export default class ArticleController {
   }
 
   @Patch("/:id")
-  public async patchArticle (@Ctx() ctx: any, @Param("id") id: any, @Body() body: any) {
+  public async patchArticle (@Ctx() ctx: any, @Param("id") id: string, @Body() body: any) {
     const res = await ArticleService.patchArticle(ctx, id, body);
     if (typeof(res) === 'string') {
       return MessageHandler.handleError({ ctx, message: res });
@@ -107,19 +106,4 @@ export default class ArticleController {
       });
     }
   }
-
-  // @Get("/all")
-  // public async getAllArticle (@Ctx() ctx: any) {
-  //   const res = await ArticleService.getAllArticle(ctx);
-  //   if (typeof(res) === 'string') {
-  //     return MessageHandler.handleError({ ctx, message: res });
-  //   }
-  //   if (res) {
-  //     return MessageHandler.handleSuccess({
-  //       ctx,
-  //       result: res.result,
-  //       message: res.message
-  //     });
-  //   }
-  // }
 }
