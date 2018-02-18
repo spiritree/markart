@@ -5,9 +5,7 @@ import {
   Col,
   Icon,
   Card,
-  Tabs,
   Table,
-  DatePicker,
   Tooltip,
   Menu,
   Dropdown,
@@ -20,7 +18,6 @@ import {
   MiniBar,
   MiniProgress,
   Field,
-  Pie,
 } from '../../components/Charts';
 import Trend from '../../components/Trend';
 import NumberInfo from '../../components/NumberInfo';
@@ -28,7 +25,6 @@ import { getTimeDistance } from '../../utils/utils';
 
 import styles from './Analysis.less';
 
-const { RangePicker } = DatePicker;
 
 const rankingListData = [];
 for (let i = 0; i < 7; i += 1) {
@@ -101,13 +97,11 @@ export default class Analysis extends Component {
   }
 
   render() {
-    const { currentTabKey } = this.state;
     const { chart, loading } = this.props;
     const {
       visitData,
       visitData2,
       searchData,
-      offlineData,
     } = chart;
 
     const menu = (

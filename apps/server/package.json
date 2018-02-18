@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf app/**/*.{js,map} app/*.{js,map} config/**/*.{js,map}",
     "start": "NODE_ENV=production node --harmony index.js",
-    "dev": "NODE_ENV=development nodemon -w app -x ts-node --inspect app.ts",
+    "dev": "NODE_ENV=development nodemon -w app -x ts-node app.ts",
     "updatedb": "node ./node_modules/geoip-lite/scripts/updatedb.js",
     "tsc": "tsc -p tsconfig.json",
     "tsc:w": "tsc -p tsconfig.json -w"
@@ -34,6 +34,7 @@
     "koa-body": "^2.3.0",
     "koa-helmet": "^3.2.0",
     "koa-router": "^7.3.0",
+    "koa-static-cache": "^5.1.2",
     "mongoose": "^4.13.9",
     "mongoose-auto-increment-fix": "^5.0.2",
     "mongoose-paginate": "^5.0.3",
