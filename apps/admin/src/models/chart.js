@@ -1,61 +1,61 @@
-import { fakeChartData } from '../services/api';
+import { getArticleList, getCategoryList, getTagList } from '../services/api';
 
 export default {
   namespace: 'chart',
 
   state: {
-    visitData: [],
-    visitData2: [],
-    salesData: [],
-    searchData: [],
-    offlineData: [],
-    offlineChartData: [],
-    salesTypeData: [],
-    salesTypeDataOnline: [],
-    salesTypeDataOffline: [],
-    radarData: [],
-    loading: false,
+    // 模板必须与返回的数据结构保持一致
+    data: {
+
+    },
   },
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(fakeChartData);
+    *fetchArticle(_, { call, put }) {
+      const response = yield call(getArticleList);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+      return response;
+    },
+    *fetchTag(_, { call, put }) {
+      const response = yield call(getTagList);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+      return response;
+    },
+    *fetchCategory(_, { call, put }) {
+      const response = yield call(getCategoryList);
       yield put({
         type: 'save',
         payload: response,
       });
     },
-    *fetchSalesData(_, { call, put }) {
-      const response = yield call(fakeChartData);
-      yield put({
-        type: 'save',
-        payload: {
-          salesData: response.salesData,
-        },
-      });
-    },
   },
 
   reducers: {
-    save(state, { payload }) {
+    save(state, action) {
       return {
         ...state,
-        ...payload,
-      };
+        data: {
+          category: action.payload,
+          tag: state.data.chart,
+          article: state.data.chart,
+        },
+      }
     },
     clear() {
       return {
-        visitData: [],
-        visitData2: [],
-        salesData: [],
-        searchData: [],
-        offlineData: [],
-        offlineChartData: [],
-        salesTypeData: [],
-        salesTypeDataOnline: [],
-        salesTypeDataOffline: [],
-        radarData: [],
-      };
+        state: {
+          // 模板必须与返回的数据结构保持一致
+          data: {
+
+          },
+        },
+      }
     },
   },
 };
