@@ -1,9 +1,9 @@
 export const middlewareList: Array<string> = [
-  'error',
-  'koaBody',
-  'koaHelmet',
   'logger',
-  'initAdmin',
   'restc',
-  'interceptor'
+  'interceptor',
+  'initAdmin',
+  'koaHelmet',
+  'koaBody',
+  'error',
 ];

@@ -20,6 +20,7 @@ const codeMessage = {
   503: '服务不可用，服务器暂时过载或维护',
   504: '网关超时',
 };
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -47,7 +48,7 @@ export default function request(url, options) {
     credentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };
-  if (newOptions.method === 'POST' || newOptions.method === 'PUT' || newOptions.method === 'PATCH') {
+  if (newOptions) {
     let auth = '';
     if (window.localStorage.getItem('TOKEN') == null) {
       auth = '';
@@ -62,18 +63,10 @@ export default function request(url, options) {
     };
     newOptions.body = JSON.stringify(newOptions.body);
   }
-  if (newOptions.method === 'DELETE') {
-    newOptions.headers = {
-      Authorization: `Bearer ${JSON.parse(window.localStorage.getItem('TOKEN') || '').token}`,
-    };
-  }
 
   return fetch(url, newOptions)
     .then(checkStatus)
     .then((response) => {
-      // if (newOptions.method === 'DELETE' || response.status === 204) {
-      //   return response.text();
-      // }
       return response.json();
     })
     .catch((e) => {
