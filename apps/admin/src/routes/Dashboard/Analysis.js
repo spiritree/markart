@@ -4,38 +4,22 @@ import {
   Row,
   Col,
   Icon,
-  Card,
-  Table,
   Tooltip,
-  Menu,
-  Dropdown,
 } from 'antd';
-import numeral from 'numeral';
 import {
   ChartCard,
-  yuan,
-  MiniArea,
-  MiniBar,
-  MiniProgress,
-  Field,
 } from '../../components/Charts';
-import Trend from '../../components/Trend';
-import NumberInfo from '../../components/NumberInfo';
 import { getTimeDistance } from '../../utils/utils';
 
 import styles from './Analysis.less';
 
-@connect(({ tag, article, category, comment, loading }) => ({
+@connect(({ tag, article, category, comment }) => ({
   tag,
   category,
   article,
-  comment
+  comment,
 }))
 export default class Analysis extends Component {
-  state = {
-    currentTabKey: '',
-  };
-
   async componentDidMount() {
     await this.props.dispatch({
       type: 'tag/fetch',

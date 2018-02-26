@@ -193,7 +193,3 @@ export async function updateAuth(params) {
     },
   });
 }
-
-export async function fakeChartData() {
-  return request(`${baseURL}/api/fake_chart_data`);
-}

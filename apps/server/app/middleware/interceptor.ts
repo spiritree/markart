@@ -39,21 +39,25 @@ export = async (ctx: Koa.Context, next: Function) => {
 	};
 
 	// 排除auth的post请求 && 评论的post请求 && like请求 && hero post
-	const isLike = Object.is(ctx.request.url, '/api/like') && Object.is(ctx.request.method, 'POST');
-	const isPostAuth = Object.is(ctx.request.url, '/api/auth') && Object.is(ctx.request.method, 'POST');
+	const isArticleLike = Object.is(ctx.request.url, '/api/article/like') && Object.is(ctx.request.method, 'POST');
+	const isCommentLike = Object.is(ctx.request.url, '/api/comment/like') && Object.is(ctx.request.method, 'POST');
 	const isLogin = Object.is(ctx.request.url, '/api/auth/login') && Object.is(ctx.request.method, 'POST');
 	const isHero = Object.is(ctx.request.url, '/api/hero') && Object.is(ctx.request.method, 'POST');
 	const isPostComment = Object.is(ctx.request.url, '/api/comment') && Object.is(ctx.request.method, 'POST');
-	if (isLike || isPostAuth || isPostComment || isLogin || isHero) {
+	if (isArticleLike || isCommentLike || isPostComment || isLogin || isHero) {
 		await next();
 		return false;
 	};
 
-	// 拦截所有非管路员的非get请求
-	// if (!Auth.authIsVerified(ctx.request) && !Object.is(ctx.request.method, 'GET')) {
-	// 	ctx.throw(401, { code: -2, message: '身份验证失败！' })
-	// 	return false;
-	// };
+	// 拦截所有非管理员的非get请求
+	if (!Auth.authIsVerified(ctx.request) && !Object.is(ctx.request.method, 'GET')) {
+		ctx.status = 401;
+		ctx.body = {
+			code: -2,
+			message: '身份验证失败'
+		}
+		return false;
+	};
 
 	await next();
 }

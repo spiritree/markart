@@ -35,6 +35,21 @@ export default class CommentController {
     }
   }
 
+  @Post("/like")
+  public async likeComment(@Ctx() ctx: any, @Body() body: any): Promise<Object> {
+    const res = await CommentService.likeComment(ctx, body);
+    if (typeof(res) === 'string') {
+      return MessageHandler.handleError({ ctx, message: res });
+    }
+    if (res) {
+      return MessageHandler.handleSuccess({
+        ctx,
+        result: res.result,
+        message: res.message
+      });
+    }
+  }
+
   @Delete("/:id")
   public async deleteComment (@Ctx() ctx: any, @Param("id") id: string): Promise<Object> {
     const res = await CommentService.deleteComment(ctx, id);

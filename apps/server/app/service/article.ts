@@ -1,6 +1,6 @@
-import Article from "../model/article";
-import Auth from "../utils/auth";
-import { IResult } from "../utils/messageHandler";
+import Article from '../model/article';
+import Auth from '../utils/auth';
+import { IResult } from '../utils/messageHandler';
 
 export class ArticleService {
   /**
@@ -18,7 +18,7 @@ export class ArticleService {
     const {
       current_page = 1,
       page_size = 10,
-      keyword = "",
+      keyword = '',
       state = 1,
       publish = 1,
       category,
@@ -32,8 +32,8 @@ export class ArticleService {
       sort: { create_at: -1 },
       page: Number(current_page),
       limit: Number(page_size),
-      populate: ["category", "tag"],
-      select: "-content"
+      populate: ['category', 'tag'],
+      select: '-content'
     };
 
     // 参数
@@ -42,7 +42,7 @@ export class ArticleService {
     // 关键词查询
     if (keyword) {
       const keywordReg = new RegExp(keyword);
-      querys["$or"] = [
+      querys['$or'] = [
         { title: keywordReg },
         { content: keywordReg },
         { description: keywordReg }
@@ -50,17 +50,17 @@ export class ArticleService {
     }
 
     // 按照state查询
-    if (["1", "2"].includes(state)) {
+    if (['1', '2'].includes(state)) {
       querys.state = state;
     }
 
     // 按照公开程度查询
-    if (["1", "2"].includes(publish)) {
+    if (['1', '2'].includes(publish)) {
       querys.publish = publish;
     }
 
     // 按照类型程度查询
-    if (["1", "2", "3"].includes(type)) {
+    if (['1', '2', '3'].includes(type)) {
       querys.type = type;
     }
 
@@ -76,7 +76,7 @@ export class ArticleService {
     // 时间查询
     if (date) {
       const getDate: any = new Date(date);
-      if (!Object.is(getDate.toString(), "Invalid Date")) {
+      if (!Object.is(getDate.toString(), 'Invalid Date')) {
         querys.create_at = {
           $gte: new Date((getDate / 1000 - 60 * 60 * 8) * 1000),
           $lt: new Date((getDate / 1000 + 60 * 60 * 16) * 1000)
@@ -95,10 +95,10 @@ export class ArticleService {
     }
 
     // 如果是前台请求，则重置公开状态和发布状态
-    // if (!Auth.authIsVerified(ctx.request)) {
-    //   querys.state = 1;
-    //   querys.publish = 1;
-    // }
+    if (!Auth.authIsVerified(ctx.request)) {
+      querys.state = 1;
+      querys.publish = 1;
+    }
 
     // 查询
     const article = await Article.paginate(querys, options).catch(err =>
@@ -114,9 +114,9 @@ export class ArticleService {
         },
         list: article.docs
       };
-      return { ctx, result, message: "列表数据获取成功" };
+      return { ctx, result, message: '列表数据获取成功' };
     } else {
-      const message: string = "获取列表数据失败";
+      const message: string = '获取列表数据失败';
       return message;
     }
   }
@@ -135,7 +135,7 @@ export class ArticleService {
     body: any
   ): Promise<IResult | string> {
     if (!body.title || !body.content) {
-      const message: string = "内容为空";
+      const message: string = '内容为空';
       return message;
     }
 
@@ -144,9 +144,9 @@ export class ArticleService {
       .catch(err => ctx.throw(500, err));
 
     if (article) {
-      return { ctx, message: "添加文章成功" };
+      return { ctx, message: '添加文章成功' };
     } else {
-      const message: string = "添加文章失败";
+      const message: string = '添加文章失败';
       return message;
     }
   }
@@ -167,20 +167,20 @@ export class ArticleService {
     const _id = id;
 
     if (!_id) {
-      const message: string = "无效参数";
+      const message: string = '无效参数';
       return message;
     }
 
     const article = await Article.findById(_id)
-      .populate("category tag")
+      .populate('category tag')
       .catch(err => ctx.throw(500, err));
     if (article) {
       // 每次请求，views 都增加一次
       article.meta.views += 1;
       article.save();
-      return { ctx, message: "文章获取成功", result: article };
+      return { ctx, message: '文章获取成功', result: article };
     } else {
-      const message: string = "文章获取失败";
+      const message: string = '文章获取失败';
       return message;
     }
   }
@@ -201,7 +201,7 @@ export class ArticleService {
     const _id = id;
 
     if (!_id) {
-      const message: string = "无效参数";
+      const message: string = '无效参数';
       return message;
     }
 
@@ -209,9 +209,9 @@ export class ArticleService {
       ctx.throw(500, err)
     );
     if (res) {
-      return { ctx, message: "删除文章成功" };
+      return { ctx, message: '删除文章成功' };
     } else {
-      const message: string = "文章删除失败";
+      const message: string = '文章删除失败';
       return message;
     }
   }
@@ -240,12 +240,12 @@ export class ArticleService {
     delete body.meta;
 
     if (!_id) {
-      const message: string = "无效参数";
+      const message: string = '无效参数';
       return message;
     }
 
     if (!title || !keyword) {
-      const message: string = "title, keyword必填";
+      const message: string = 'title, keyword必填';
       return message;
     }
 
@@ -253,9 +253,9 @@ export class ArticleService {
       ctx.throw(500, err)
     );
     if (article) {
-      return { ctx, message: "更新文章成功" };
+      return { ctx, message: '更新文章成功' };
     } else {
-      const message: string = "更新文章失败";
+      const message: string = '更新文章失败';
       return message;
     }
   }
@@ -276,7 +276,7 @@ export class ArticleService {
     body: any
   ): Promise<IResult | string> {
     const _id = id;
-    console.log("patchart", _id);
+    console.log('patchart', _id);
     const { state, publish } = body;
     const querys: any = {};
 
@@ -284,7 +284,7 @@ export class ArticleService {
 
     if (publish) querys.publish = Number(publish);
     if (!_id) {
-      const message: string = "无效参数";
+      const message: string = '无效参数';
       return message;
     }
 
@@ -293,9 +293,48 @@ export class ArticleService {
     );
 
     if (article) {
-      return { ctx, message: "更新文章状态成功" };
+      return { ctx, message: '更新文章状态成功' };
     } else {
-      const message: string = "更新文章状态失败";
+      const message: string = '更新文章状态失败';
+      return message;
+    }
+  }
+
+  /**
+   * 喜欢文章
+   *
+   * @static
+   * @param {*} ctx
+   * @param {*} body
+   * @returns {(Promise<IResult | string>)}
+   * @memberof ArticleService
+   */
+  public static async likeArticle(
+    ctx: any,
+    body: any
+  ): Promise<IResult | string> {
+    const { _id, type } = body;
+
+    if (!_id || !type || ![0].includes(Number(type))) {
+      const message: string = '无效参数';
+      return message;
+    }
+
+    const article = await Article.findById(_id).catch(err =>
+      ctx.throw(500, err)
+    );
+
+    if (article) {
+      article.meta.likes += 1;
+      const plusRes = await article.save().catch((err: any) => ctx.throw(500, err));
+      if (plusRes) {
+        return { ctx, message: '喜欢文章成功' };
+      } else {
+        const message: string = '喜欢文章失败';
+        return message;
+      }
+    } else {
+      const message: string = '喜欢文章失败';
       return message;
     }
   }
@@ -309,31 +348,12 @@ export class ArticleService {
    * @memberof ArticleService
    */
   public static async getAllArticle(ctx: any): Promise<IResult | string> {
-    // const current_page = 1
-    // const page_size = 10000
-
-    // 过滤条件
-    // const options = {
-    //   sort: { create_at: -1 },
-    //   page: Number(current_page),
-    //   limit: Number(page_size),
-    //   populate: ['tag'],
-    //   select: '-content'
-    // }
-
-    // 参数
-    // const querys = {
-    //   state: 1,
-    //   publish: 1
-    // }
-
-    // 查询
     const article = await Article.aggregate([
       { $match: { state: 1, publish: 1 } },
       {
         $project: {
-          year: { $year: "$create_at" },
-          month: { $month: "$create_at" },
+          year: { $year: '$create_at' },
+          month: { $month: '$create_at' },
           title: 1,
           create_at: 1
         }
@@ -341,14 +361,14 @@ export class ArticleService {
       {
         $group: {
           _id: {
-            year: "$year",
-            month: "$month"
+            year: '$year',
+            month: '$month'
           },
           article: {
             $push: {
-              title: "$title",
-              _id: "$_id",
-              create_at: "$create_at"
+              title: '$title',
+              _id: '$_id',
+              create_at: '$create_at'
             }
           }
         }
@@ -371,9 +391,9 @@ export class ArticleService {
         return { year: item, monthList };
       });
 
-      return { ctx, result: yearList, message: "获取内容成功" };
+      return { ctx, result: yearList, message: '获取内容成功' };
     } else {
-      const message: string = "获取内容失败";
+      const message: string = '获取内容失败';
       return message;
     }
   }

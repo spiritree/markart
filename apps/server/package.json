@@ -1,7 +1,7 @@
 {
-  "name": "koa-typescript-blog",
+  "name": "artee-blog",
   "version": "1.0.0",
-  "description": "api",
+  "description": "Nuxt.js + React + TypeScript + Koa + MongoDB anvrtkm markrv",
   "main": "app.js",
   "scripts": {
     "clean": "rimraf app/**/*.{js,map} app/*.{js,map} config/**/*.{js,map}",

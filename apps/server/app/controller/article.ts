@@ -34,6 +34,20 @@ export default class ArticleController {
     }
   }
 
+  @Post("/like")
+  public async likeArticle(@Ctx() ctx: any, @Body() body: any): Promise<Object> {
+    const res = await ArticleService.likeArticle(ctx, body);
+    if (typeof(res) === 'string') {
+      return MessageHandler.handleError({ ctx, message: res });
+    }
+    if (res) {
+      return MessageHandler.handleSuccess({
+        ctx,
+        message: res.message
+      });
+    }
+  }
+
   // 坑点：/all必须在/:id前面，否则会被覆盖
   @Get("/all")
   public async getAllArticle (@Ctx() ctx: any) {

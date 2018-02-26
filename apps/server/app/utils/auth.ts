@@ -1,3 +1,5 @@
+// https://github.com/koajs/jwt/blob/master/lib/resolvers/auth-header.js
+
 import * as jwt from "jsonwebtoken";
 import * as config from "../../config";
 
