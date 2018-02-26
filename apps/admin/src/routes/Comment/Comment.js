@@ -141,14 +141,21 @@ export default class CommentList extends PureComponent {
             onChange={this.handleTableChange}
             expandedRowRender={record =>
               (
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <p style={{ margin: 0 }}>文章名称：{record.post_title}</p>
-                  </Col>
-                  <Col span={8}>
-                    <p style={{ margin: 0 }}>IP：{record.ip}</p>
-                  </Col>
-                </Row>
+                <div>
+                  <Row gutter={16}>
+                    <Col span={8}>
+                      <p style={{ margin: 0 }}>文章名称：{record.post_title}</p>
+                    </Col>
+                    <Col span={8}>
+                      <p style={{ margin: 0 }}>IP：{record.ip}</p>
+                    </Col>
+                  </Row>
+                  <Row gutter={16}>
+                    <Col span={8}>
+                      <p style={{ margin: 0 }}>评论内容：{record.content}</p>
+                    </Col>
+                  </Row>
+                </div>
               )
             }
             rowKey="id"

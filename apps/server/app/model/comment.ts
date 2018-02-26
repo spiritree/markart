@@ -35,7 +35,7 @@ const commentSchema: Schema = new mongoose.Schema({
   post_id: { type: Number, required: true },
 
   // 评论所在的文章标题
-  post_title: { type: String, required: true },
+  post_title: { type: String },
 
   // pid，0代表默认留言
   pid: { type: Number, default: 0 },
