@@ -1,7 +1,7 @@
-import Article from "../model/article";
-import Comment from "../model/comment";
-import Auth from "../utils/auth";
-import * as geoip from "geoip-lite";
+import Article from '../model/article';
+import Comment from '../model/comment';
+import Auth from '../utils/auth';
+import * as geoip from 'geoip-lite';
 import { IResult } from '../utils/messageHandler';
 
 // 更新当前所受影响的文章的评论聚合数据
@@ -11,18 +11,18 @@ const updateArticleCommentCount = (post_ids: any[] = []) => {
   if (post_ids.length) {
     Comment.aggregate([
       { $match: { state: 1, post_id: { $in: post_ids } } },
-      { $group: { _id: "$post_id", num_tutorial: { $sum: 1 } } }
+      { $group: { _id: '$post_id', num_tutorial: { $sum: 1 } } }
     ])
       .then(counts => {
         if (counts.length === 0) {
-          Article.update({ id: post_ids[0] }, { $set: { "meta.comments": 0 } })
+          Article.update({ id: post_ids[0] }, { $set: { 'meta.comments': 0 } })
             .then(info => {})
             .catch(err => {});
         } else {
           counts.forEach((count: any) => {
             Article.update(
               { id: count._id },
-              { $set: { "meta.comments": count.num_tutorial } }
+              { $set: { 'meta.comments': count.num_tutorial } }
             )
               .then(info => {
                 // console.log('评论聚合更新成功', info);
@@ -34,7 +34,7 @@ const updateArticleCommentCount = (post_ids: any[] = []) => {
         }
       })
       .catch(err => {
-        console.warn("更新评论count聚合数据前，查询失败", err);
+        console.warn('更新评论count聚合数据前，查询失败', err);
       });
   }
 };
@@ -57,7 +57,7 @@ export class CommentService {
       sort = -1,
       current_page = 1,
       page_size = 20,
-      keyword = "",
+      keyword = '',
       post_id,
       state
     } = queryParams;
@@ -82,22 +82,22 @@ export class CommentService {
     let querys: any = {};
 
     // 查询各种状态
-    if (state && ["0", "1", "2"].includes(state)) {
+    if (state && ['0', '1', '2'].includes(state)) {
       querys.state = state;
     }
 
     // 如果是前台请求，则重置公开状态和发布状态
-    // if (!authIsVerified(ctx.request)) {
-    // 	querys.state = 1
-    // };
+    if (!Auth.authIsVerified(ctx.request)) {
+      querys.state = 1;
+    }
 
     // 关键词查询
     if (keyword) {
       const keywordReg = new RegExp(keyword);
-      querys["$or"] = [
+      querys['$or'] = [
         { content: keywordReg },
-        { "author.name": keywordReg },
-        { "author.email": keywordReg }
+        { 'author.name': keywordReg },
+        { 'author.email': keywordReg }
       ];
     }
 
@@ -120,9 +120,9 @@ export class CommentService {
         },
         list: comments.docs
       };
-      return { ctx, result, message: "获取评论列表成功" };
+      return { ctx, result, message: '获取评论列表成功' };
     } else {
-      const message: string = "获取评论列表失败";
+      const message: string = '获取评论列表失败';
       return message;
     }
   }
@@ -143,16 +143,16 @@ export class CommentService {
     let comment = body;
     // 获取ip地址以及物理地理地址
     const ip = (
-      ctx.req.headers["x-forwarded-for"] ||
-      ctx.req.headers["x-real-ip"] ||
+      ctx.req.headers['x-forwarded-for'] ||
+      ctx.req.headers['x-real-ip'] ||
       ctx.req.connection.remoteAddress ||
       ctx.req.socket.remoteAddress ||
       ctx.req.connection.socket.remoteAddress ||
       ctx.req.ip ||
       ctx.req.ips[0]
-    ).replace("::ffff:", "");
+    ).replace('::ffff:', '');
     comment.ip = ip;
-    comment.agent = ctx.headers["user-agent"] || comment.agent;
+    comment.agent = ctx.headers['user-agent'] || comment.agent;
 
     const ip_location = geoip.lookup(ip);
 
@@ -175,22 +175,22 @@ export class CommentService {
         return {
           ctx,
           result: res,
-          message: "评论发布成功"
+          message: '评论发布成功'
         };
       } else {
-        const message: string = "发布评论失败";
+        const message: string = '发布评论失败';
         return message;
       }
     }
   }
 
   /**
-   * 
-   * 
+   *
+   *
    * @static
-   * @param {*} ctx 
-   * @param {string} id 
-   * @returns {(Promise<IResult | string>)} 
+   * @param {*} ctx
+   * @param {string} id
+   * @returns {(Promise<IResult | string>)}
    * @memberof CommentService
    */
   public static async deleteComment(
@@ -206,9 +206,9 @@ export class CommentService {
     );
     if (res) {
       updateArticleCommentCount(post_ids);
-      return { ctx, message: "删除评论成功" };
+      return { ctx, message: '删除评论成功' };
     } else {
-      const message: string = "删除评论失败";
+      const message: string = '删除评论失败';
       return message;
     }
   }
@@ -233,8 +233,7 @@ export class CommentService {
     let { post_id, state } = body;
 
     if (!state || !post_id) {
-      ctx.throw(401, "参数无效");
-      return false;
+      ctx.throw(401, '参数无效');
     }
 
     post_id = Array.of(Number(post_id));
@@ -244,9 +243,39 @@ export class CommentService {
     );
     if (res) {
       updateArticleCommentCount(post_id);
-      return { ctx, message: "修改评论状态成功" };
+      return { ctx, message: '修改评论状态成功' };
     } else {
-      const message: string = "修改评论状态失败";
+      const message: string = '修改评论状态失败';
+      return message;
+    }
+  }
+
+  public static async likeComment(
+    ctx: any,
+    body: any
+  ): Promise<IResult | string> {
+    const { _id, type } = body;
+
+    if (!_id || !type || ![1].includes(Number(type))) {
+      const message: string = '无效参数';
+      return message;
+    }
+
+    const comment = await Comment.findById(_id).catch(err =>
+      ctx.throw(500, err)
+    );
+
+    if (comment) {
+      comment.likes += 1;
+      const plusRes = await comment.save().catch((err: any) => ctx.throw(500, err));
+      if (plusRes) {
+        return { ctx, message: '点赞评论成功' };
+      } else {
+        const message: string = '点赞评论失败';
+        return message;
+      }
+    } else {
+      const message: string = '点赞评论失败';
       return message;
     }
   }
