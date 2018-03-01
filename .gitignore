@@ -10,7 +10,8 @@ coverage/
 run/
 *.sw*
 *.un~
-
+apps/web/.nuxt
+apps/web/build
 # General
 .DS_Store
 .AppleDouble
