@@ -10,6 +10,7 @@ import {
   OptionController
 } from "./controller";
 import { bindRoutes } from "trafficlight";
+import QiniuController from './controller/qiniu';
 
 export default function(app: any) {
   const routerRoutes = new Router({ prefix: "/api" });
@@ -21,7 +22,8 @@ export default function(app: any) {
     CommentController,
     CategoryController,
     MessageController,
-    OptionController
+    OptionController,
+    QiniuController
   ]);
   app.use(routerRoutes.routes());
   app.use(routerRoutes.allowedMethods());
