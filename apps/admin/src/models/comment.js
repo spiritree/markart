@@ -25,14 +25,14 @@ export default {
     *delete({ payload }, { call, put }) {
       const response = yield call(deleteComment, payload);
       const list = yield call(getCommentList, payload);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getCommentList',
           payload: list,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
     *changeState({ payload }, { call, put }) {
@@ -41,14 +41,14 @@ export default {
       };
       const response = yield call(changeCommentState, payload);
       const list = yield call(getCommentList, params);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getCommentList',
           payload: list,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
   },

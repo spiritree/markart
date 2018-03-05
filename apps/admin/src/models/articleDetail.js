@@ -15,13 +15,13 @@ export default {
   effects: {
     *edit({ payload }, { call, put }) {
       const response = yield call(getArticleDetail, payload);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getDetail',
           payload: response,
         });
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
   },

@@ -63,7 +63,6 @@ export default class articleRelease extends PureComponent {
 
   render() {
     const { form, dispatch, submitting, updating } = this.props;
-    console.log(this.props);
     const { getFieldDecorator, validateFieldsAndScroll } = form;
 
     const validate = () => {

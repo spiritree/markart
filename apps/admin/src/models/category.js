@@ -25,27 +25,27 @@ export default {
     *add({ payload }, { call, put }) {
       const response = yield call(addCategory, payload);
       const list = yield call(getCategoryList, payload);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getCategoryList',
           payload: list,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
     *delete({ payload }, { call, put }) {
       const response = yield call(deleteCategory, payload);
       const list = yield call(getCategoryList, payload);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getCategoryList',
           payload: list,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
     *update({ payload }, { call, put }) {
