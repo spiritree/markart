@@ -25,27 +25,27 @@ export default {
     *add({ payload }, { call, put }) {
       const response = yield call(addTag, payload);
       const list = yield call(getTagList, payload);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getTagList',
           payload: list,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
     *delete({ payload }, { call, put }) {
       const response = yield call(deleteTag, payload);
       const list = yield call(getTagList, payload);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getTagList',
           payload: list,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
     *update({ payload }, { call, put }) {
@@ -54,14 +54,14 @@ export default {
       };
       const response = yield call(updateTag, payload);
       const list = yield call(getTagList, params);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getTagList',
           payload: list,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
   },

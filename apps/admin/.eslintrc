@@ -44,6 +44,7 @@
     "import/extensions": [0],
     "no-bitwise": [0],
     "no-cond-assign": [0],
+    "no-unused-expressions": [0],
     "import/no-unresolved": [0],
     "comma-dangle": ["error", {
       "arrays": "always-multiline",

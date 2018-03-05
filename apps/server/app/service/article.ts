@@ -276,7 +276,6 @@ export class ArticleService {
     body: any
   ): Promise<IResult | string> {
     const _id = id;
-    console.log('patchart', _id);
     const { state, publish } = body;
     const querys: any = {};
 

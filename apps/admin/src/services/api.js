@@ -1,7 +1,7 @@
 import { stringify } from 'qs';
 import request from '../utils/request';
 
-const baseURL = `http://localhost:8001`
+const baseURL = `http://localhost:8001`;
 
 export async function authLogin(params) {
   return request(`${baseURL}/api/auth/login`, {
@@ -192,4 +192,8 @@ export async function updateAuth(params) {
       ...params,
     },
   });
+}
+
+export async function getQiniuToken() {
+  return request(`${baseURL}/api/qiniu`);
 }

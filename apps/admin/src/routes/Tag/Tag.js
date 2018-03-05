@@ -21,14 +21,14 @@ export default class TagList extends PureComponent {
     id: '',
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { dispatch } = this.props;
 
     const params = {
       page_size: 10,
     };
 
-    dispatch({
+    await dispatch({
       type: 'tag/fetch',
       payload: params,
     });

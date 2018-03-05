@@ -30,27 +30,27 @@ export default {
     *updateAuth({ payload }, { call, put }) {
       const response = yield call(updateAuth, payload);
       const res = yield call(getAuth);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getAuth',
           payload: res,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
     *updateOption({ payload }, { call, put }) {
       const response = yield call(updateOption, payload);
       const res = yield call(getOption);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getOption',
           payload: res,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
   },

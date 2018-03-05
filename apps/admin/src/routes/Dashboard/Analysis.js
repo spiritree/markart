@@ -63,7 +63,6 @@ export default class Analysis extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { tag, article, category, comment } = this.props;
 
     const topColResponsiveProps = {

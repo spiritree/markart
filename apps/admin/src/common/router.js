@@ -79,7 +79,7 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['category', 'tag', 'article'], () => import('../routes/Article/List')),
     },
     '/article/release': {
-      component: dynamicWrapper(app, ['category', 'tag', 'article'], () => import('../routes/Article/Release')),
+      component: dynamicWrapper(app, ['category', 'tag', 'article', 'qiniu'], () => import('../routes/Article/Release')),
     },
     '/article/release/:id': {
       component: dynamicWrapper(app, ['category', 'tag', 'article', 'articleDetail'], () => import('../routes/Article/Release')),
