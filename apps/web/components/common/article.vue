@@ -10,10 +10,11 @@
           <!-- <p class="title"><nuxt-link :to="`/article/${item._id}`">{{ item.title }}</nuxt-link></p> -->
           <nuxt-link :to="`/article/${item._id}`">
             <div class="onelist-item-thumb  bg-deepgrey">
+              <!-- <img src="/images/0.jpg"/> -->
             </div>
           </nuxt-link>
           <nuxt-link :to="`/article/${item._id}`" v-if="mobileLayout">
-            <img :src="item.thumb + '?imageView2/1/w/350/h/180/watermark/2/text/amtjaGFvLmNu/font/Y2FuZGFyYQ==/fontsize/400/fill/I0ZGRkZGRg=='"
+            <img :src="item.thumb"
             alt=""
             width="100%"
             class="mobil-img"/>
