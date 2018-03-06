@@ -18,7 +18,6 @@ export class AuthService {
     const auth = await Auth.findOne({ username }).catch(err =>
       ctx.throw(500, err)
     );
-    console.log(auth)
     if (auth) {
       if (auth.password === Crypto.encrypt(password)) {
         const token = jwt.sign(

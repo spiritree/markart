@@ -41,7 +41,7 @@ export class CategoryService {
       let $match = {};
 
       // 前台请求时，只有已经发布的和公开
-      // if (!Auth.authIsVerified(ctx.request)) $match = { state: 1, publish: 1 };
+      if (!Auth.authIsVerified(ctx.request)) $match = { state: 1, publish: 1 };
       const article = await Article.aggregate([
         { $match },
         { $unwind: "$category" },

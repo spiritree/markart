@@ -1,6 +1,6 @@
 import { MessageService } from '../service/message';
 import MessageHandler from '../utils/messageHandler';
-import { Controller, Ctx, Get, Post, Delete, Put, Patch, Body, QueryParams, Param } from "trafficlight";
+import { Controller, Ctx, Get, Post, Delete, Patch, Body, QueryParams, Param } from "trafficlight";
 
 @Controller("/message")
 export default class MessageController {
