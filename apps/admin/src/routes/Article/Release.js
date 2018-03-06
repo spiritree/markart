@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Form, Col, Row, Radio, Input } from 'antd';
+import { Upload, Icon, message, Card, Button, Form, Col, Row, Radio, Input } from 'antd';
 import { connect } from 'dva';
 import SimpleMDE from 'simplemde';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -10,6 +10,7 @@ import styles from './Release.less';
 const { TextArea } = Input;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
+const { Dragger } = Upload;
 
 const formItemLayout = {
   labelCol: {
@@ -34,7 +35,8 @@ const state = [
 ];
 
 @Form.create()
-@connect(({ articleDetail, category, tag, loading }) => ({
+@connect(({ qiniu, articleDetail, category, tag, loading }) => ({
+  qiniu,
   articleDetail,
   category,
   tag,
@@ -43,6 +45,8 @@ const state = [
 
 export default class articleRelease extends PureComponent {
   state = {
+    prefix: 'blog',
+    qn: {},
     width: '100%',
   };
   async componentDidMount() {
@@ -56,6 +60,9 @@ export default class articleRelease extends PureComponent {
     });
     const { dispatch } = this.props;
     dispatch({
+      type: 'qiniu/fetch',
+    });
+    dispatch({
       type: 'tag/fetch',
     });
     dispatch({
@@ -67,7 +74,8 @@ export default class articleRelease extends PureComponent {
         type: 'articleDetail/edit',
         payload: params,
       });
-      const { title, keyword, descript, category, tag, content, publish, state } = this.props.articleDetail.data.result;
+      const { title, keyword, descript, category, tag, content, publish, state }
+      = this.props.articleDetail.data.result;
       const [detailTagList, detailCategory] = [tag, category];
       tag.forEach((item) => {
         detailTagList.push(item._id);
@@ -99,18 +107,54 @@ export default class articleRelease extends PureComponent {
     }
   }
 
+  beforeUpload = (file) => {
+    const { prefix } = this.state;
+    this.state.qn.key = `${prefix}/${file.name}`;
+    const isPic = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isPic) {
+      message.error('请上传图片');
+    }
+    const isLt5M = file.size / 1024 / 1024 < 5;
+    if (!isLt5M) {
+      message.error('图片必须小于5MB!');
+    }
+    return isPic && isLt5M;
+  }
+
   render() {
     const { form, dispatch, submitting } = this.props;
-    console.log(this.props)
+    this.state.qn.token = this.props.qiniu.data.result;
     const tagList = this.props.tag.data.result.list;
     const categoryList = this.props.category.data.result.list;
     const { getFieldDecorator, validateFieldsAndScroll } = form;
+    const props = {
+      accept: 'image',
+      data: this.state.qn,
+      listType: 'picture-card',
+      multiple: true,
+      action: 'https://up.qbox.me/',
+      beforeUpload: this.beforeUpload,
+      onChange(info) {
+        const { status } = info.file;
+        if (status === 'done') {
+          message.success(`${info.file.name} 上传成功`);
+        } else if (status === 'error') {
+          message.error(`${info.file.name} 上传失败`);
+        }
+      },
+    };
 
     const validate = () => {
       this.props.form.setFieldsValue({
         content: this.smde.value(),
       });
       validateFieldsAndScroll((error, values) => {
+        if (values.thumb !== undefined) {
+          const { name } = values.thumb.file;
+          Object.defineProperty(values, 'thumb', {
+            value: `https://cdn.spiritree.me/${name}`,
+          });
+        }
         if (!error) {
           if (this.props.location.state !== undefined) {
             Object.defineProperty(values, '_id', {
@@ -229,19 +273,23 @@ export default class articleRelease extends PureComponent {
               </Form>
             </Card>
           </Col>
-          {/* <Col lg={9} sm={24}>
-            <Card title="笔记信息" className={styles.card} bordered={false}>
+          <Col lg={9} sm={24}>
+            <Card title="上传封面" className={styles.card} bordered={false}>
               <Form>
-                <Form.Item {...formItemLayout} label="笔记标题">
-                  {getFieldDecorator('title', {
-                    rules: [{ required: true, message: '请输入笔记标题' }],
+                <Form.Item {...formItemLayout} style={{ marginLeft: '25%' }}>
+                  {getFieldDecorator('thumb', {
+                    rules: [{ required: true, message: '请上传封面' }],
                   })(
-                    <Input placeholder="请输入笔记标题" />
+                    <Dragger {...props}>
+                      <p className="ant-upload-drag-icon">
+                        <Icon type="inbox" />
+                      </p>
+                    </Dragger>
                   )}
                 </Form.Item>
               </Form>
             </Card>
-          </Col> */}
+          </Col>
         </Row>
         <FooterToolbar style={{ width: this.state.width }}>
           <Button type="primary" onClick={validate} loading={submitting}>

@@ -33,13 +33,13 @@ export default {
   },
 
   // 不用fetch就没有SSR效果了
-  // fetch ({ store }) {
-  //   return store.dispatch('getArtList')
-  // },
-
-  created() {
-    this.$store.dispatch('getArtList');
+  fetch ({ store }) {
+    return store.dispatch('getArtList')
   },
+
+  // created() {
+  //   this.$store.dispatch('getArtList');
+  // },
 
   computed: {
     mobileLayout() {
@@ -87,17 +87,25 @@ export default {
 
   updated() {
     const thumbNodes = document.getElementsByClassName('onelist-item-thumb');
-    Array.from(thumbNodes).map(item => {
-      let randomNumber = parseInt(Math.random() * 9);
-      item.style = `background-image:url(/images/${randomNumber}.jpg)`;
-    });
+      Array.from(thumbNodes).map(item => {
+        let randomNumber = parseInt(Math.random() * 10);
+        let prevNumber = randomNumber;
+        if (prevNumber === randomNumber) {
+          randomNumber = parseInt(Math.random() * 10);
+        }
+        item.style = `background-image:url(/images/${randomNumber}.jpg)`;
+      });
   },
 
   mounted() {
     this.$nextTick(() => {
       const thumbNodes = document.getElementsByClassName('onelist-item-thumb');
       Array.from(thumbNodes).map(item => {
-        let randomNumber = parseInt(Math.random() * 9);
+        let randomNumber = parseInt(Math.random() * 10);
+        let prevNumber = randomNumber;
+        if (prevNumber === randomNumber) {
+          randomNumber = parseInt(Math.random() * 10);
+        }
         item.style = `background-image:url(/images/${randomNumber}.jpg)`;
       });
     });

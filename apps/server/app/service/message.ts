@@ -45,9 +45,9 @@ export class MessageService {
     }
 
     // 前台请求， 重置状态
-    // if (!Auth.authIsVerified(ctx.request)) {
-    //   querys.state = 1;
-    // }
+    if (!Auth.authIsVerified(ctx.request)) {
+      querys.state = 1;
+    }
 
     // 请求留言
     const message = await Message.paginate(querys, options).catch(err =>
@@ -146,7 +146,6 @@ export class MessageService {
 
     if (!state) {
       ctx.throw(401, "参数无效");
-      return false;
     }
 
     const res = await Message.findByIdAndUpdate(_id, { state }).catch(err =>

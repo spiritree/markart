@@ -59,7 +59,6 @@ export default {
 
   mounted() {
     this.loadComemntList({ page_size: 8 });
-    console.log(this);
   },
 
   methods: {

@@ -15,21 +15,15 @@ const updateArticleCommentCount = (post_ids: any[] = []) => {
     ])
       .then(counts => {
         if (counts.length === 0) {
-          Article.update({ id: post_ids[0] }, { $set: { 'meta.comments': 0 } })
-            .then(info => {})
-            .catch(err => {});
+          Article.update({ id: post_ids[0] }, { $set: { 'meta.comments': 0 } });
+          // .then(info => {})
+          // .catch(err => {});
         } else {
           counts.forEach((count: any) => {
             Article.update(
               { id: count._id },
               { $set: { 'meta.comments': count.num_tutorial } }
-            )
-              .then(info => {
-                // console.log('评论聚合更新成功', info);
-              })
-              .catch(err => {
-                // console.warn('评论聚合更新失败', err);
-              });
+            );
           });
         }
       })
@@ -65,7 +59,7 @@ export class CommentService {
     sort = Number(sort);
 
     // 过滤条件
-    const options = {
+    const options: any = {
       sort: { _id: sort },
       page: Number(current_page),
       limit: Number(page_size)
@@ -267,7 +261,9 @@ export class CommentService {
 
     if (comment) {
       comment.likes += 1;
-      const plusRes = await comment.save().catch((err: any) => ctx.throw(500, err));
+      const plusRes = await comment
+        .save()
+        .catch((err: any) => ctx.throw(500, err));
       if (plusRes) {
         return { ctx, message: '点赞评论成功' };
       } else {
