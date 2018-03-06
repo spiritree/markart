@@ -1,7 +1,9 @@
 import { stringify } from 'qs';
 import request from '../utils/request';
 
-const baseURL = `http://localhost:8001`;
+const IS_DEV = process.env.NODE_ENV !== 'production';
+
+const baseURL = IS_DEV ? 'http://localhost:8001/' : 'https://api.spiritree.me/';
 
 export async function authLogin(params) {
   return request(`${baseURL}/api/auth/login`, {

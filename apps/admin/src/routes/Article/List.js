@@ -310,7 +310,10 @@ export default class ArticleList extends Component {
                   <IconText type="message" text={item.meta.comments} />,
                   // <Button>修改</Button>,
                   // <Button>删除</Button>,
-                  <DropOption onMenuClick={e => this.handleMenuClick(item, e)} menuOptions={menuList} />,
+                  <DropOption
+                    onMenuClick={e => this.handleMenuClick(item, e)}
+                    menuOptions={menuList}
+                  />,
                 ]}
                 extra={<div className={styles.listItemExtra} />}
               >
