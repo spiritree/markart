@@ -1,12 +1,11 @@
 {
-  "name": "art-blog",
-  "version": "0.0.0",
+  "name": "markart-blog",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "install": "lerna bootstrap",
     "dev": "concurrently 'cd apps/server && npm run dev' 'cd apps/admin && npm run start' 'cd apps/web && npm run dev'",
-    "build": "lerna exec 'npm run build'",
-    "lint": "tslint apps/*/src/**/*{.ts,tsx} --fix"
+    "build": "lerna exec 'npm run build'"
   },
   "engines": {
     "node": ">= 7.6.0"

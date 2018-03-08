@@ -4,7 +4,7 @@ import Auth from '../utils/auth'
 export = async (ctx: Koa.Context, next: Function) => {
 
   // 拦截器
-	const allowedOrigins = ['file://'];
+	const allowedOrigins = ['https://blog.spiritree.me', 'https://admin.spiritree.me', 'file://'];
 	const origin = ctx.request.headers.origin || '';
 	if (allowedOrigins.includes(origin) || origin.includes('localhost')) {
 		ctx.set('Access-Control-Allow-Origin', origin);
