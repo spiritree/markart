@@ -8,6 +8,7 @@
     "start": "NODE_ENV=production node --harmony index.js",
     "dev": "NODE_ENV=development nodemon -w app -x ts-node app.ts",
     "updatedb": "node ./node_modules/geoip-lite/scripts/updatedb.js",
+    "build": "tsc -p tsconfig.json",
     "tsc": "tsc -p tsconfig.json",
     "tsc:w": "tsc -p tsconfig.json -w"
   },
