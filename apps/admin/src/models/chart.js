@@ -45,7 +45,7 @@ export default {
           tag: state.data.chart,
           article: state.data.chart,
         },
-      }
+      };
     },
     clear() {
       return {
@@ -55,7 +55,7 @@ export default {
 
           },
         },
-      }
+      };
     },
   },
 };

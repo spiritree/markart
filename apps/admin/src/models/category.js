@@ -54,14 +54,14 @@ export default {
       };
       const response = yield call(updateCategory, payload);
       const list = yield call(getCategoryList, params);
-      if (response.code === 1) {
+      if (response && response.code === 1) {
         yield put({
           type: 'getCategoryList',
           payload: list,
         });
         message.success(response.message);
       } else {
-        message.error(response.message);
+        response ? message.error(response.message) : message.error('认证过期，重新登录');
       }
     },
   },
