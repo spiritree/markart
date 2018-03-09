@@ -5,7 +5,9 @@
   "scripts": {
     "install": "lerna bootstrap",
     "dev": "concurrently 'cd apps/server && npm run dev' 'cd apps/admin && npm run start' 'cd apps/web && npm run dev'",
-    "build": "lerna exec 'npm run build'"
+    "build": "lerna exec 'npm run build'",
+    "deploy": "lerna exec 'npm run deploy'",
+    "clean": "cd apps/server && npm run clean"
   },
   "engines": {
     "node": ">= 7.6.0"
