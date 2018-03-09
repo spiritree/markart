@@ -1,12 +1,8 @@
 export default function({ store, route }, next) {
   const isSide = [
     'index',
-    'code',
-    'think',
-    'date-date',
-    'tag-tag',
-    'search-keyword',
-    'fuck'
+    'archives',
+    'about'
   ];
   const isAsidePage = isSide.includes(route.name);
   if (!Object.is(store.state.options.isAsidePage, isAsidePage)) {

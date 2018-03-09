@@ -1,5 +1,5 @@
 {
-  "name": "markArt-blog-admin",
+  "name": "markart-blog-admin",
   "version": "1.0.0",
   "description": "An out-of-box UI solution for enterprise applications",
   "private": true,
@@ -8,6 +8,7 @@
     "start": "cross-env DISABLE_ESLINT=true roadhog dev",
     "start:no-proxy": "cross-env NO_PROXY=true DISABLE_ESLINT=true roadhog dev",
     "build": "cross-env DISABLE_ESLINT=true roadhog build",
+    "deploy": "cross-env DISABLE_ESLINT=true roadhog build",
     "site": "roadhog-api-doc static && gh-pages -d dist",
     "analyze": "cross-env ANALYZE=true roadhog build",
     "lint:style": "stylelint \"src/**/*.less\" --syntax less",

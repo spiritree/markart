@@ -18,12 +18,16 @@
   </section>
 </template>
 <script>
-import articleView from '~/components/common/article.vue';
-import ContentPlaceholders from '~/components/placeholder/ContentPlaceholders.vue';
-import ContentPlaceholdersHeading from '~/components/placeholder/ContentPlaceholdersHeading.vue';
-import ContentPlaceholdersText from '~/components/placeholder/ContentPlaceholdersText.vue';
+const components = {
+  articleView: () => import('~/components/common/article.vue'),
+  ContentPlaceholders: () => import('~/components/placeholder/ContentPlaceholders.vue'),
+  ContentPlaceholdersHeading: () => import('~/components/placeholder/ContentPlaceholdersHeading.vue'),
+  ContentPlaceholdersText: () => import('~/components/placeholder/ContentPlaceholdersText.vue')
+}
 
 export default {
+  components,
+
   scrollToTop: true,
 
   transition: 'fade',
@@ -68,13 +72,6 @@ export default {
     loading() {
       return this.$store.state.article.fetch;
     }
-  },
-
-  components: {
-    articleView,
-    ContentPlaceholders,
-    ContentPlaceholdersHeading,
-    ContentPlaceholdersText
   },
 
   methods: {

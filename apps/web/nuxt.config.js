@@ -6,8 +6,8 @@ module.exports = {
   },
   build: {
     // 将重复引用的(第三方/自有)模块添加到vendor.bundle.js
-    vendor: ['axios', 'marked', 'gravatar', 'highlight.js'],
-    // postcss
+    // 貌似重复打包了
+    // vendor: ['axios', 'marked', 'gravatar', 'highlight.js'],
     postcss: [
       require('postcss-nested')(),
       require('postcss-responsive-type')(),

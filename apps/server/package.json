@@ -1,11 +1,11 @@
 {
-  "name": "markArt-blog-backend",
+  "name": "markart-blog-backend",
   "version": "1.0.0",
   "description": "Nuxt.js + React + TypeScript + Koa + MongoDB anvrtkm markrv",
   "main": "app.js",
   "scripts": {
     "clean": "rimraf app/**/*.{js,map} app/*.{js,map} config/**/*.{js,map}",
-    "start": "NODE_ENV=production node --harmony index.js",
+    "deploy": "tsc -p tsconfig.json && NODE_ENV=production node app.js",
     "dev": "NODE_ENV=development nodemon -w app -x ts-node app.ts",
     "updatedb": "node ./node_modules/geoip-lite/scripts/updatedb.js",
     "build": "tsc -p tsconfig.json",
