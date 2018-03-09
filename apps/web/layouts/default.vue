@@ -24,13 +24,17 @@
 
 
 <script>
-import Footer from '~/components/layouts/footer.vue';
-import Header from '~/components/layouts/header.vue';
-import mobileHeader from '~/components/mobile/header.vue';
-import mobileAside from '~/components/mobile/aside.vue';
-import scollTop from '~/components/layouts/scollTop.vue';
+const components = {
+  Footer: () => import('~/components/layouts/footer.vue'),
+  Header: () => import('~/components/layouts/header.vue'),
+  mobileHeader: () => import('~/components/mobile/header.vue'),
+  mobileAside: () => import('~/components/mobile/aside.vue'),
+  scollTop: () => import('~/components/layouts/scollTop.vue')
+}
 
 export default {
+  components,
+
   head() {
     return !this.mobileLayout
       ? {}
@@ -39,14 +43,6 @@ export default {
             class: 'mobile'
           }
         };
-  },
-
-  components: {
-    Footer,
-    Header,
-    mobileHeader,
-    mobileAside,
-    scollTop
   },
 
   computed: {
