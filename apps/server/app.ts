@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import * as config from "./config";
-import * as http from "http";
 import * as Koa from "koa";
 import BindRoutes from "./app/route";
 import mongooseConnect from "./app/lib/mongoose";
@@ -16,7 +15,6 @@ class App {
     this.connectDB();
     this.initMiddleware();
     this.bindRouter();
-    this.server();
   }
 
   private connectDB(): void {
@@ -49,12 +47,8 @@ class App {
   private bindRouter(): void {
     BindRoutes(this.app);
   }
-
-  private server(): void {
-    http.createServer(this.app.callback()).listen(config.APP.PORT, () => {
-      console.log(`node server run port at ${config.APP.PORT}`);
-    });
-  }
 }
 
-export default new App().app;
+export default new App().app.listen(config.APP.PORT, () => {
+  console.log(`Koa is listening in ${config.APP.PORT}`)
+})
