@@ -1,6 +1,21 @@
-# markart(blog)
+<h2 align="center">markart - A blog powered by</h2>
 
-A blog based on Nuxt.js + React(Ant Design) + Koa with TypeScript + MongoDB Version 3.6.
+<p align="center">
+  <em>
+  Nuxt
+  · React
+  · Ant Design
+  · TypeScript
+  · Koa
+  · MongoDB
+  </em>
+</p>
+
+<p align="center">
+  <a href="#badge">
+    <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?longCache=true&style=for-the-badge">
+  </a>
+</p>
 
 ## Development
 
@@ -17,4 +32,7 @@ npm run build
 
 ## TODO
 
-- [] Redis
+- [ ] Lazyload
+- [ ] Redis
+
+ 
