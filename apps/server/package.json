@@ -10,7 +10,8 @@
     "updatedb": "node ./node_modules/geoip-lite/scripts/updatedb.js",
     "build": "tsc -p tsconfig.json",
     "tsc": "tsc -p tsconfig.json",
-    "tsc:w": "tsc -p tsconfig.json -w"
+    "tsc:w": "tsc -p tsconfig.json -w",
+    "test": "jest"
   },
   "repository": {
     "type": "git"
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "@types/geoip-lite": "^1.1.29",
+    "@types/jest": "^22.2.0",
     "@types/jsonwebtoken": "^7.2.5",
     "@types/koa": "^2.0.43",
     "@types/koa-helmet": "^3.1.2",
@@ -61,8 +63,34 @@
     "@types/mongoose-auto-increment": "^5.0.30",
     "@types/mongoose-paginate": "^5.0.6",
     "@types/mongoose-promise": "^4.5.7",
+    "@types/supertest": "^2.0.4",
     "@types/yargs": "^10.0.1",
+    "coveralls": "^3.0.0",
+    "jest": "^22.4.2",
     "reflect-metadata": "^0.1.10",
-    "restc": "^0.2.2"
+    "restc": "^0.2.2",
+    "supertest": "^3.0.0",
+    "ts-jest": "^22.4.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ],
+    "collectCoverage": true,
+    "verbose": true
   }
 }

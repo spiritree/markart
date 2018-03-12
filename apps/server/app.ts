@@ -16,7 +16,7 @@ class App {
     this.connectDB();
     this.initMiddleware();
     this.bindRouter();
-    this.server();
+    // this.server();
   }
 
   private connectDB(): void {
@@ -57,4 +57,6 @@ class App {
   }
 }
 
-export default new App().app;
+export default new App().app.listen(config.APP.PORT, () => {
+  console.log(`Koa is listening in ${config.APP.PORT}`)
+})
