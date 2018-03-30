@@ -6,6 +6,7 @@
   "scripts": {
     "precommit": "npm run lint-staged",
     "start": "cross-env DISABLE_ESLINT=true roadhog dev",
+    "start:server": "cd ..&&cd server&&npm run dev",
     "start:no-proxy": "cross-env NO_PROXY=true DISABLE_ESLINT=true roadhog dev",
     "build": "cross-env DISABLE_ESLINT=true roadhog build",
     "deploy": "cross-env DISABLE_ESLINT=true roadhog build",
