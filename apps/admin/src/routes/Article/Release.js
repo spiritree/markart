@@ -149,10 +149,11 @@ export default class articleRelease extends PureComponent {
         content: this.smde.value(),
       });
       validateFieldsAndScroll((error, values) => {
+        const { prefix } = this.state;
         if (values.thumb !== undefined) {
           const { name } = values.thumb.file;
           Object.defineProperty(values, 'thumb', {
-            value: `https://cdn.spiritree.me/${name}`,
+            value: `https://cdn.spiritree.me/${prefix}/${name}`,
           });
         }
         if (!error) {
@@ -278,7 +279,7 @@ export default class articleRelease extends PureComponent {
               <Form>
                 <Form.Item {...formItemLayout} style={{ marginLeft: '25%' }}>
                   {getFieldDecorator('thumb', {
-                    rules: [{ required: true, message: '请上传封面' }],
+                    rules: [{ required: false, message: '请上传封面' }],
                   })(
                     <Dragger {...props}>
                       <p className="ant-upload-drag-icon">
