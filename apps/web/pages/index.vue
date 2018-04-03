@@ -81,32 +81,6 @@ export default {
       });
     }
   },
-
-  updated() {
-    const thumbNodes = document.getElementsByClassName('onelist-item-thumb');
-      Array.from(thumbNodes).map(item => {
-        let randomNumber = parseInt(Math.random() * 10);
-        let prevNumber = randomNumber;
-        if (prevNumber === randomNumber) {
-          randomNumber = parseInt(Math.random() * 10);
-        }
-        item.style = `background-image:url(/images/${randomNumber}.jpg)`;
-      });
-  },
-
-  mounted() {
-    this.$nextTick(() => {
-      const thumbNodes = document.getElementsByClassName('onelist-item-thumb');
-      Array.from(thumbNodes).map(item => {
-        let randomNumber = parseInt(Math.random() * 10);
-        let prevNumber = randomNumber;
-        if (prevNumber === randomNumber) {
-          randomNumber = parseInt(Math.random() * 10);
-        }
-        item.style = `background-image:url(/images/${randomNumber}.jpg)`;
-      });
-    });
-  }
 };
 </script>
 

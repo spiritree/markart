@@ -24,6 +24,7 @@
 
 
 <script>
+
 const components = {
   Footer: () => import('~/components/layouts/footer.vue'),
   Header: () => import('~/components/layouts/header.vue'),
@@ -65,7 +66,10 @@ export default {
     }
   },
 
-  mounted() {}
+  mounted() {
+    this.$nextTick(() => {
+    })
+  }
 };
 </script>
 

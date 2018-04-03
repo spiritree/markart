@@ -10,7 +10,10 @@
           <!-- <p class="title"><nuxt-link :to="`/article/${item._id}`">{{ item.title }}</nuxt-link></p> -->
           <nuxt-link :to="`/article/${item._id}`">
             <div class="onelist-item-thumb  bg-deepgrey">
-              <!-- <img src="/images/0.jpg"/> -->
+              <lazy-load-component>
+                <img v-if="item.thumb" :src="`${item.thumb}`"/>
+                <img v-else src="/images/1.jpg"/>
+              </lazy-load-component>
             </div>
           </nuxt-link>
           <nuxt-link :to="`/article/${item._id}`" v-if="mobileLayout">
@@ -55,6 +58,7 @@
 import ContentPlaceholders from '~/components/placeholder/ContentPlaceholders.vue';
 import ContentPlaceholdersHeading from '~/components/placeholder/ContentPlaceholdersHeading.vue';
 import ContentPlaceholdersText from '~/components/placeholder/ContentPlaceholdersText.vue';
+import LazyLoadComponent from '~/components/lazyload/LazyLoadComponent.vue';
 
 export default {
   name: 'article-box',
@@ -64,7 +68,8 @@ export default {
   components: {
     ContentPlaceholders,
     ContentPlaceholdersHeading,
-    ContentPlaceholdersText
+    ContentPlaceholdersText,
+    LazyLoadComponent
   },
 
   computed: {
@@ -75,6 +80,10 @@ export default {
     mobileLayout() {
       return this.$store.state.options.mobileLayout;
     }
+  },
+
+  created() {
+    console.log(this.articleList)
   }
 };
 </script>
@@ -129,5 +138,13 @@ export default {
   color: rgba(0, 0, 0, 0.65);
   background-color: #fff;
   border-color: #d9d9d9;
+}
+
+.onelist-item-thumb {
+  img {
+    width: 100%;
+    max-height: 260px;
+    border-radius: 5px;
+  }
 }
 </style>
