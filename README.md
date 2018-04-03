@@ -32,7 +32,9 @@ npm run build
 
 ## TODO
 
-- [ ] Lazyload
+- [x] Lazyload
 - [ ] Redis
+- [ ] Redesign comment
+- [ ] Sentry
 
  
