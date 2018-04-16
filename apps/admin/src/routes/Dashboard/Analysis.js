@@ -9,9 +9,6 @@ import {
 import {
   ChartCard,
 } from '../../components/Charts';
-import { getTimeDistance } from '../../utils/utils';
-
-import styles from './Analysis.less';
 
 @connect(({ tag, article, category, comment }) => ({
   tag,
@@ -42,26 +39,6 @@ export default class Analysis extends Component {
     });
   }
 
-  handleTabChange = (key) => {
-    this.setState({
-      currentTabKey: key,
-    });
-  };
-
-  isActive(type) {
-    const { rangePickerValue } = this.state;
-    const value = getTimeDistance(type);
-    if (!rangePickerValue[0] || !rangePickerValue[1]) {
-      return;
-    }
-    if (
-      rangePickerValue[0].isSame(value[0], 'day') &&
-      rangePickerValue[1].isSame(value[1], 'day')
-    ) {
-      return styles.currentDate;
-    }
-  }
-
   render() {
     const { tag, article, category, comment } = this.props;
 
@@ -88,8 +65,7 @@ export default class Analysis extends Component {
               }
               total={article.data.result.pagination.total}
               contentHeight={46}
-            >
-            </ChartCard>
+            />
           </Col>
           <Col {...topColResponsiveProps}>
             <ChartCard
@@ -101,8 +77,7 @@ export default class Analysis extends Component {
                 </Tooltip>
               }
               total={tag.data.result.pagination.total}
-            >
-            </ChartCard>
+            />
           </Col>
           <Col {...topColResponsiveProps}>
             <ChartCard
@@ -114,8 +89,7 @@ export default class Analysis extends Component {
                 </Tooltip>
               }
               total={category.data.result.pagination.total}
-            >
-            </ChartCard>
+            />
           </Col>
           <Col {...topColResponsiveProps}>
             <ChartCard
@@ -128,8 +102,7 @@ export default class Analysis extends Component {
               }
               total={comment.data.result.pagination.total}
               contentHeight={46}
-            >
-            </ChartCard>
+            />
           </Col>
         </Row>
       </div>
