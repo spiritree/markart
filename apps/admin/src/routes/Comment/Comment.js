@@ -63,12 +63,10 @@ export default class CommentList extends PureComponent {
     form.resetFields();
   }
 
-  handleSearch = (e) => {
-    e.preventDefault();
+  handleSearch = (value) => {
     const { dispatch } = this.props;
-    const name = this.props.form.getFieldValue('keyword');
     const params = {
-      keyword: name,
+      keyword: value,
     };
     dispatch({
       type: 'comment/fetch',
