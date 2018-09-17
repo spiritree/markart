@@ -1,36 +1,36 @@
-import * as mongoose from "mongoose";
-import * as mongoosePaginate from "mongoose-paginate";
-import { Schema } from "mongoose";
-const autoIncrement = require("mongoose-auto-increment-fix");
+import * as mongoose from 'mongoose'
+import * as mongoosePaginate from 'mongoose-paginate'
+import { Schema } from 'mongoose'
+const autoIncrement = require('mongoose-auto-increment-fix')
 
 // 自增ID初始化
-autoIncrement.initialize(mongoose.connection);
+autoIncrement.initialize(mongoose.connection)
 
 interface Meta {
-  views: number;
-  likes: number;
-  comments: number;
+  views: number
+  likes: number
+  comments: number
 }
 
 interface Extend {
-  name: string;
-  value: string;
+  name: string
+  value: string
 }
 
 interface IArticleModel extends mongoose.Document {
-  title: string;
-  keyword: string;
-  descript: string;
-  category: any;
-  tag: any;
-  content: string;
-  state: number;
-  publish: number;
-  thumb: string;
-  create_at: Date;
-  update_at: Date;
-  meta: Meta;
-  extends: Extend[];
+  title: string
+  keyword: string
+  descript: string
+  category: any
+  tag: any
+  content: string
+  state: number
+  publish: number
+  thumb: string
+  create_at: Date
+  update_at: Date
+  meta: Meta
+  extends: Extend[]
 }
 
 const articleSchema: Schema = new mongoose.Schema({
@@ -44,10 +44,10 @@ const articleSchema: Schema = new mongoose.Schema({
   descript: { type: String, required: true },
 
   // 文章分类
-  category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
+  category: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
 
   // 标签
-  tag: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
+  tag: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }],
 
   // 内容
   content: { type: String, required: true },
@@ -81,31 +81,31 @@ const articleSchema: Schema = new mongoose.Schema({
       value: { type: String, validate: /\S+/ }
     }
   ]
-});
+})
 
 // 转化成普通 JavaScript 对象
-articleSchema.set("toObject", { getters: true });
+articleSchema.set('toObject', { getters: true })
 
 // 翻页 + 自增ID插件配置
-articleSchema.plugin(mongoosePaginate);
+articleSchema.plugin(mongoosePaginate)
 articleSchema.plugin(autoIncrement.plugin, {
-  model: "Article",
-  field: "id",
+  model: 'Article',
+  field: 'id',
   startAt: 1,
   incrementBy: 1
-});
+})
 
 // 时间更新
-articleSchema.pre("findOneAndUpdate", function(next) {
+articleSchema.pre('findOneAndUpdate', function(next) {
   // 不用箭头函数因为将this的指向静态化了
-  this.findOneAndUpdate({}, { update_at: Date.now() });
-  next();
-});
+  this.findOneAndUpdate({}, { update_at: Date.now() })
+  next()
+})
 
 // 列表时用的文章内容虚拟属性
-articleSchema.virtual("t_content").get(function() {
-  const content = this.content;
-  return !!content ? content.substring(0, 130) : content;
-});
+articleSchema.virtual('t_content').get(function() {
+  const content = this.content
+  return !!content ? content.substring(0, 130) : content
+})
 
-export default mongoose.model<IArticleModel>("Article", articleSchema);
+export default mongoose.model<IArticleModel>('Article', articleSchema)

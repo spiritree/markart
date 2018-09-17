@@ -1,19 +1,19 @@
-import * as mongoose from "mongoose";
-import { Schema } from "mongoose";
+import * as mongoose from 'mongoose'
+import { Schema } from 'mongoose'
 
 interface Meta {
-  likes: number;
+  likes: number
 }
 
 interface IOptionModel extends mongoose.Document {
-  title: string;
-  sub_title: string;
-  keyword: string;
-  descript: string;
-  url: string;
-  email: string;
-  icp: string;
-  meta: Meta;
+  title: string
+  sub_title: string
+  keyword: string
+  descript: string
+  url: string
+  email: string
+  icp: string
+  meta: Meta
 }
 
 const optionSchema: Schema = new mongoose.Schema({
@@ -46,6 +46,6 @@ const optionSchema: Schema = new mongoose.Schema({
     // 被喜欢次数
     likes: { type: Number, default: 0 }
   }
-});
+})
 
-export default mongoose.model<IOptionModel>("Option", optionSchema);
+export default mongoose.model<IOptionModel>('Option', optionSchema)

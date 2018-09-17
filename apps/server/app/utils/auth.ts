@@ -1,45 +1,45 @@
 // https://github.com/koajs/jwt/blob/master/lib/resolvers/auth-header.js
 
-import * as jwt from "jsonwebtoken";
-import * as config from "../../config";
+import * as jwt from 'jsonwebtoken'
+import * as config from '../../config'
 
 export default class Auth {
   /**
    * token
    * @static
-   * @param {*} req 
-   * @returns 
+   * @param {*} req
+   * @returns
    * @memberof Auth
    */
   public static authToken(req: any) {
     if (req.headers && req.headers.authorization) {
-      const parts = req.headers.authorization.split(" ");
-      if (Object.is(parts.length, 2) && Object.is(parts[0], "Bearer")) {
-        return parts[1];
+      const parts = req.headers.authorization.split(' ')
+      if (Object.is(parts.length, 2) && Object.is(parts[0], 'Bearer')) {
+        return parts[1]
       }
     }
-    return false;
+    return false
   }
 
   /**
    * 验证权限
    * @static
-   * @param {*} req 
-   * @returns 
+   * @param {*} req
+   * @returns
    * @memberof Auth
    */
   public static authIsVerified(req: any) {
-    const token: string = Auth.authToken(req);
+    const token: string = Auth.authToken(req)
     if (token) {
       try {
-        const decodedToken: any = jwt.verify(token, config.AUTH.jwtTokenSecret);
+        const decodedToken: any = jwt.verify(token, config.AUTH.jwtTokenSecret)
         if (decodedToken.exp > Math.floor(Date.now() / 1000)) {
-          return true;
+          return true
         }
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     }
-    return false;
+    return false
   }
 }

@@ -1,33 +1,33 @@
-import * as mongoose from "mongoose";
-import * as mongoosePaginate from "mongoose-paginate";
-import { Schema } from "mongoose";
-const autoIncrement = require("mongoose-auto-increment-fix");
+import * as mongoose from 'mongoose'
+import * as mongoosePaginate from 'mongoose-paginate'
+import { Schema } from 'mongoose'
+const autoIncrement = require('mongoose-auto-increment-fix')
 
 // 自增ID初始化
-autoIncrement.initialize(mongoose.connection);
+autoIncrement.initialize(mongoose.connection)
 
 interface Author {
-  name: string;
-  email: string;
-  site: string;
+  name: string
+  email: string
+  site: string
 }
 
 interface ICommentModel extends mongoose.Document {
-  post_id: number;
-  post_title: string;
-  pid: number;
-  content: string;
-  likes: number;
-  ip: string;
-  city: string;
-  range: string;
-  country: string;
-  agent: string;
-  author: Author;
-  state: number;
-  create_at: Date;
-  update_at: Date;
-  extend: any;
+  post_id: number
+  post_title: string
+  pid: number
+  content: string
+  likes: number
+  ip: string
+  city: string
+  range: string
+  country: string
+  agent: string
+  author: Author
+  state: number
+  create_at: Date
+  update_at: Date
+  extend: any
 }
 
 const commentSchema: Schema = new mongoose.Schema({
@@ -79,21 +79,21 @@ const commentSchema: Schema = new mongoose.Schema({
 
   // 最后修改日期
   update_at: { type: Date }
-});
+})
 
 // 翻页 + 自增ID插件配置
-commentSchema.plugin(mongoosePaginate);
+commentSchema.plugin(mongoosePaginate)
 commentSchema.plugin(autoIncrement.plugin, {
-  model: "Comment",
-  field: "id",
+  model: 'Comment',
+  field: 'id',
   startAt: 1,
   incrementBy: 1
-});
+})
 
 // 时间更新
-commentSchema.pre("findOneAndUpdate", function(next) {
-  this.findOneAndUpdate({}, { update_at: Date.now() });
-  next();
-});
+commentSchema.pre('findOneAndUpdate', function(next) {
+  this.findOneAndUpdate({}, { update_at: Date.now() })
+  next()
+})
 
-export default mongoose.model<ICommentModel>("Comment", commentSchema);
+export default mongoose.model<ICommentModel>('Comment', commentSchema)

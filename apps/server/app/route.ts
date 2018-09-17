@@ -1,4 +1,4 @@
-import * as Router from "koa-router";
+import * as Router from 'koa-router'
 import {
   AuthController,
   HomeController,
@@ -8,12 +8,12 @@ import {
   CategoryController,
   MessageController,
   OptionController
-} from "./controller";
-import { bindRoutes } from "trafficlight";
-import QiniuController from './controller/qiniu';
+} from './controller'
+import { bindRoutes } from 'trafficlight'
+import QiniuController from './controller/qiniu'
 
 export default function(app: any) {
-  const routerRoutes = new Router({ prefix: "/api" });
+  const routerRoutes = new Router({ prefix: '/api' })
   bindRoutes(routerRoutes, [
     HomeController,
     AuthController,
@@ -24,7 +24,7 @@ export default function(app: any) {
     MessageController,
     OptionController,
     QiniuController
-  ]);
-  app.use(routerRoutes.routes());
-  app.use(routerRoutes.allowedMethods());
+  ])
+  app.use(routerRoutes.routes())
+  app.use(routerRoutes.allowedMethods())
 }
