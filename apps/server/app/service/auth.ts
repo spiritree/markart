@@ -1,8 +1,8 @@
-import Auth from "../model/auth";
-import Crypto from "../utils/crypto";
-import * as jwt from "jsonwebtoken";
-import * as config from "../../config";
-import { IResult } from '../utils/messageHandler';
+import Auth from '../model/auth'
+import Crypto from '../utils/crypto'
+import * as jwt from 'jsonwebtoken'
+import * as config from '../../config'
+import { IResult } from '../utils/messageHandler'
 
 export class AuthService {
   /**
@@ -14,10 +14,10 @@ export class AuthService {
    * @memberof AuthService
    */
   public static async login(ctx: any, body: any): Promise<any> {
-    const { username, password } = body;
+    const { username, password } = body
     const auth = await Auth.findOne({ username }).catch(err =>
       ctx.throw(500, err)
-    );
+    )
     if (auth) {
       if (auth.password === Crypto.encrypt(password)) {
         const token = jwt.sign(
@@ -27,19 +27,19 @@ export class AuthService {
             exp: Math.floor(Date.now() / 1000) + 60 * 60
           },
           config.AUTH.jwtTokenSecret
-        );
+        )
         return {
-          currentAuthority: "admin",
+          currentAuthority: 'admin',
           token,
           lifeTime: Math.floor(Date.now() / 1000) + 60 * 60
-        };
+        }
       } else {
-        const message: string = "密码错误";
-        return message;
+        const message: string = '密码错误'
+        return message
       }
     } else {
-      const message: string = "账户不存在";
-      return message;
+      const message: string = '账户不存在'
+      return message
     }
   }
 
@@ -51,10 +51,10 @@ export class AuthService {
    * @memberof AuthService
    */
   public static async getAuth(ctx: any): Promise<IResult | string> {
-    const auth = await Auth.findOne({}, "name username slogan gravatar").catch(
+    const auth = await Auth.findOne({}, 'name username slogan gravatar').catch(
       err => ctx.throw(500, err)
-    );
-    return auth;
+    )
+    return auth
   }
 
   /**
@@ -65,10 +65,7 @@ export class AuthService {
    * @returns {Promise<IResult | string>}
    * @memberof AuthService
    */
-  public static async putAuth(
-    ctx: any,
-    body: any
-  ): Promise<IResult | string> {
+  public static async putAuth(ctx: any, body: any): Promise<IResult | string> {
     const {
       _id,
       name,
@@ -77,17 +74,17 @@ export class AuthService {
       gravatar,
       oldPassword,
       newPassword
-    } = body;
+    } = body
     const auth = await Auth.findOne(
       {},
-      "_id name slogan gravatar password"
-    ).catch(err => ctx.throw(500, err));
+      '_id name slogan gravatar password'
+    ).catch(err => ctx.throw(500, err))
     if (auth) {
       if (auth.password !== Crypto.encrypt(oldPassword)) {
-        const message: string = "原密码错误";
-        return message;
+        const message: string = '原密码错误'
+        return message
       } else {
-        const password = newPassword === "" ? oldPassword : newPassword;
+        const password = newPassword === '' ? oldPassword : newPassword
         let _auth = await Auth.findByIdAndUpdate(
           _id,
           {
@@ -99,8 +96,8 @@ export class AuthService {
             password: Crypto.encrypt(password)
           },
           { new: true }
-        ).catch(err => ctx.throw(500, err));
-        return _auth;
+        ).catch(err => ctx.throw(500, err))
+        return _auth
       }
     }
   }

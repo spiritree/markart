@@ -1,5 +1,5 @@
-import Option from "../model/option";
-import { IResult } from "../utils/messageHandler";
+import Option from '../model/option'
+import { IResult } from '../utils/messageHandler'
 
 export class OptionService {
   /**
@@ -11,16 +11,16 @@ export class OptionService {
    * @memberof OptionService
    */
   public static async getOption(ctx: any): Promise<IResult | string> {
-    const option = await Option.findOne().catch(err => ctx.throw(500, err));
+    const option = await Option.findOne().catch(err => ctx.throw(500, err))
     if (option) {
       return {
         ctx,
         result: option,
-        message: "获取配置成功"
-      };
+        message: '获取配置成功'
+      }
     } else {
-      const message: string = "获取配置失败";
-      return message;
+      const message: string = '获取配置失败'
+      return message
     }
   }
 
@@ -37,20 +37,20 @@ export class OptionService {
     ctx: any,
     body: any
   ): Promise<IResult | string> {
-    const { _id } = body;
+    const { _id } = body
     const option = await (_id
       ? Option.findByIdAndUpdate(_id, body, { new: true })
       : new Option(body).save()
-    ).catch(err => ctx.throw(500, err));
+    ).catch(err => ctx.throw(500, err))
     if (option) {
       return {
         ctx,
         result: option,
-        message: "修改配置成功"
-      };
+        message: '修改配置成功'
+      }
     } else {
-      const message: string = "修改配置失败";
-      return message;
+      const message: string = '修改配置失败'
+      return message
     }
   }
 }

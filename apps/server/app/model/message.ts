@@ -1,21 +1,21 @@
-import * as mongoose from "mongoose";
-import * as mongoosePaginate from "mongoose-paginate";
-import { Schema } from "mongoose";
-const autoIncrement = require("mongoose-auto-increment-fix");
+import * as mongoose from 'mongoose'
+import * as mongoosePaginate from 'mongoose-paginate'
+import { Schema } from 'mongoose'
+const autoIncrement = require('mongoose-auto-increment-fix')
 
 // 自增ID初始化
-autoIncrement.initialize(mongoose.connection);
+autoIncrement.initialize(mongoose.connection)
 
 interface IMessageModel extends mongoose.Document {
-  name: string;
-  content: string;
-  state: number;
-  ip: string;
-  city: string;
-  range: string;
-  country: string;
-  agent: string;
-  create_at: Date;
+  name: string
+  content: string
+  state: number
+  ip: string
+  city: string
+  range: string
+  country: string
+  agent: string
+  create_at: Date
 }
 
 const messageSchema: Schema = new mongoose.Schema({
@@ -41,14 +41,14 @@ const messageSchema: Schema = new mongoose.Schema({
 
   // 发布日期
   create_at: { type: Date, default: Date.now }
-});
+})
 
-messageSchema.plugin(mongoosePaginate);
+messageSchema.plugin(mongoosePaginate)
 messageSchema.plugin(autoIncrement.plugin, {
-  model: "Message",
-  field: "id",
+  model: 'Message',
+  field: 'id',
   startAt: 1,
   incrementBy: 1
-});
+})
 
-export default mongoose.model<IMessageModel>("Message", messageSchema);
+export default mongoose.model<IMessageModel>('Message', messageSchema)

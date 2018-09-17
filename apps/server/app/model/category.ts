@@ -1,24 +1,24 @@
-import * as mongoose from "mongoose";
-import * as mongoosePaginate from "mongoose-paginate";
-import { Schema } from "mongoose";
-const autoIncrement = require("mongoose-auto-increment-fix");
+import * as mongoose from 'mongoose'
+import * as mongoosePaginate from 'mongoose-paginate'
+import { Schema } from 'mongoose'
+const autoIncrement = require('mongoose-auto-increment-fix')
 
 // 自增ID初始化
-autoIncrement.initialize(mongoose.connection);
+autoIncrement.initialize(mongoose.connection)
 
 interface Extend {
-  name: string;
-  value: string;
+  name: string
+  value: string
 }
 
 interface ICategoryModel extends mongoose.Document {
-  name: string;
-  slug: string;
-  descript: string;
-  pid: any;
-  create_at: Date;
-  update_at: Date;
-  extend: Extend[];
+  name: string
+  slug: string
+  descript: string
+  pid: any
+  create_at: Date
+  update_at: Date
+  extend: Extend[]
 }
 
 const categorySchema: Schema = new mongoose.Schema({
@@ -32,7 +32,7 @@ const categorySchema: Schema = new mongoose.Schema({
   descript: { type: String },
 
   // 父分类ID
-  pid: { type: mongoose.Schema.Types.ObjectId, ref: "Category", default: null },
+  pid: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
 
   // 创建时间
   create_at: { type: Date, default: Date.now },
@@ -47,24 +47,24 @@ const categorySchema: Schema = new mongoose.Schema({
       value: { type: String, validate: /\S+/ }
     }
   ]
-});
+})
 
 // 转化成普通 JavaScript 对象
-categorySchema.set("toObject", { getters: true });
+categorySchema.set('toObject', { getters: true })
 
 // 翻页 + 自增ID插件配置
-categorySchema.plugin(mongoosePaginate);
+categorySchema.plugin(mongoosePaginate)
 categorySchema.plugin(autoIncrement.plugin, {
-  model: "Category",
-  field: "id",
+  model: 'Category',
+  field: 'id',
   startAt: 1,
   incrementBy: 1
-});
+})
 
 // 时间更新
-categorySchema.pre("findOneAndUpdate", function(next) {
-  this.findOneAndUpdate({}, { update_at: Date.now() });
-  next();
-});
+categorySchema.pre('findOneAndUpdate', function(next) {
+  this.findOneAndUpdate({}, { update_at: Date.now() })
+  next()
+})
 
-export default mongoose.model<ICategoryModel>("Category", categorySchema);
+export default mongoose.model<ICategoryModel>('Category', categorySchema)

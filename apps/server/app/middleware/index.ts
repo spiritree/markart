@@ -5,5 +5,5 @@ export const middlewareList: Array<string> = [
   'initAdmin',
   'koaHelmet',
   'koaBody',
-  'error',
-];
+  'error'
+]

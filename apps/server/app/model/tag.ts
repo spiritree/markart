@@ -1,17 +1,17 @@
-import * as mongoose from "mongoose";
-import * as mongoosePaginate from "mongoose-paginate";
-import { Schema } from "mongoose";
-const autoIncrement = require("mongoose-auto-increment-fix");
+import * as mongoose from 'mongoose'
+import * as mongoosePaginate from 'mongoose-paginate'
+import { Schema } from 'mongoose'
+const autoIncrement = require('mongoose-auto-increment-fix')
 
 // 自增ID初始化
-autoIncrement.initialize(mongoose.connection);
+autoIncrement.initialize(mongoose.connection)
 
 interface ITagModel extends mongoose.Document {
-  name: string;
-  descript: string;
-  create_at: Date;
-  update_at: Date;
-  sort: number;
+  name: string
+  descript: string
+  create_at: Date
+  update_at: Date
+  sort: number
 }
 
 // 标签模型
@@ -30,22 +30,22 @@ const tagSchema: Schema = new mongoose.Schema({
 
   // 排序
   sort: { type: Number, default: 0 }
-});
+})
 
 // 翻页
-tagSchema.plugin(mongoosePaginate);
+tagSchema.plugin(mongoosePaginate)
 tagSchema.plugin(autoIncrement.plugin, {
-  model: "Tag",
-  field: "id",
+  model: 'Tag',
+  field: 'id',
   startAt: 1,
   incrementBy: 1
-});
+})
 
 // 时间更新
-tagSchema.pre("findOneAndUpdate", function(next) {
-  this.findOneAndUpdate({}, { update_at: Date.now() });
-  next();
-});
+tagSchema.pre('findOneAndUpdate', function(next) {
+  this.findOneAndUpdate({}, { update_at: Date.now() })
+  next()
+})
 
 // 标签模型
-export default mongoose.model<ITagModel>("Tag", tagSchema);
+export default mongoose.model<ITagModel>('Tag', tagSchema)

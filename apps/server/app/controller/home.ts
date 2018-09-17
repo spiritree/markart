@@ -1,11 +1,10 @@
-import { Controller, Get } from "trafficlight";
-import { HomeService } from '../service/home';
+import { Controller, Get } from 'trafficlight'
+import { HomeService } from '../service/home'
 
-@Controller("/")
+@Controller('/')
 export default class HomeController {
-
-  @Get("")
+  @Get('')
   public getInfo(): Object {
-    return HomeService.info();
+    return HomeService.info()
   }
 }
