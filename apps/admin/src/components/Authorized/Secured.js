@@ -1,14 +1,11 @@
-
-import React from 'react';
-import Exception from '../Exception/index';
-import CheckPermissions from './CheckPermissions';
+import React from 'react'
+import Exception from '../Exception'
+import CheckPermissions from './CheckPermissions'
 /**
  * 默认不能访问任何页面
  * default is "NULL"
  */
-const Exception403 = () => (
-  <Exception type="403" style={{ minHeight: 500, height: '80%' }} />
-);
+const Exception403 = () => <Exception type="403" />
 
 // Determine whether the incoming component has been instantiated
 // AuthorizedRoute is already instantiated
@@ -16,10 +13,10 @@ const Exception403 = () => (
 // Secured is not instantiated
 const checkIsInstantiation = (target) => {
   if (!React.isValidElement(target)) {
-    return target;
+    return target
   }
-  return () => target;
-};
+  return () => target
+}
 
 /**
  * 用于判断是否拥有权限访问此view权限
@@ -42,17 +39,21 @@ const authorize = (authority, error) => {
    * 防止传入字符串时找不到staticContext造成报错
    * String parameters can cause staticContext not found error
    */
-  let classError = false;
+  let classError = false
   if (error) {
-    classError = () => error;
+    classError = () => error
   }
   if (!authority) {
-    throw new Error('authority is required');
+    throw new Error('authority is required')
   }
-  return function decideAuthority(targer) {
-    const component = CheckPermissions(authority, targer, classError || Exception403);
-    return checkIsInstantiation(component);
-  };
-};
+  return function decideAuthority(target) {
+    const component = CheckPermissions(
+      authority,
+      target,
+      classError || Exception403
+    )
+    return checkIsInstantiation(component)
+  }
+}
 
-export default authorize;
+export default authorize

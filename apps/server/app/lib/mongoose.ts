@@ -10,8 +10,8 @@ class mongooseConnect {
       config.MONGODB.uri,
       {
         useMongoClient: true,
-        user: config.MONGODB.username,
-        pass: config.MONGODB.password
+        // user: config.MONGODB.username,
+        // pass: config.MONGODB.password
       }
     )
 
