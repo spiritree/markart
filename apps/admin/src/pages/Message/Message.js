@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import { Row, Col, Card, Form, Button, Table, Popconfirm, Radio } from 'antd';
+import StandardFormRow from '@/components/StandardFormRow';
+import HeaderSearch from '@/components/HeaderSearch';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import StandardFormRow from '../../components/StandardFormRow';
-import HeaderSearch from '../../components/HeaderSearch';
 import styles from './Message.less';
 
 const FormItem = Form.Item;

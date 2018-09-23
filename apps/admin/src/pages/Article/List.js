@@ -4,9 +4,9 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Card, List, Form, Tag, Icon, Radio } from 'antd';
 
-import DropOption from '../../components/DropOption';
-import StandardFormRow from '../../components/StandardFormRow';
-import HeaderSearch from '../../components/HeaderSearch';
+import DropOption from '@/components/DropOption';
+import StandardFormRow from '@/components/StandardFormRow';
+import HeaderSearch from '@/components/HeaderSearch';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './List.less';
 

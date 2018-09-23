@@ -73,6 +73,9 @@ export default [
         icon: 'setting',
         component: './Option/Option'
       },
+      {
+        component: '404'
+      }
     ]
   }
 ]
