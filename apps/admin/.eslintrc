@@ -42,6 +42,7 @@
     "jsx-a11y/anchor-is-valid": [0],
     "no-nested-ternary": [0],
     "arrow-body-style": [0],
+    "arrow-parens": [0],
     "import/extensions": [0],
     "no-bitwise": [0],
     "no-cond-assign": [0],
@@ -62,7 +63,8 @@
   },
   "parserOptions": {
     "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
+      "experimentalObjectRestSpread": true,
+      "legacyDecotators": true
     }
   },
   "settings": {
