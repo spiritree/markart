@@ -11,6 +11,7 @@
     "jasmine": true
   },
   "rules": {
+    "semi": [0],
     "generator-star-spacing": [0],
     "consistent-return": [0],
     "camelcase":"off",
@@ -41,16 +42,17 @@
     "jsx-a11y/anchor-is-valid": [0],
     "no-nested-ternary": [0],
     "arrow-body-style": [0],
+    "arrow-parens": [0],
     "import/extensions": [0],
     "no-bitwise": [0],
     "no-cond-assign": [0],
     "no-unused-expressions": [0],
     "import/no-unresolved": [0],
     "comma-dangle": ["error", {
-      "arrays": "always-multiline",
-      "objects": "always-multiline",
-      "imports": "always-multiline",
-      "exports": "always-multiline",
+      "arrays": "ignore",
+      "objects": "ignore",
+      "imports": "ignore",
+      "exports": "ignore",
       "functions": "ignore"
     }],
     "object-curly-newline": [0],
@@ -61,7 +63,8 @@
   },
   "parserOptions": {
     "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
+      "experimentalObjectRestSpread": true,
+      "legacyDecotators": true
     }
   },
   "settings": {
