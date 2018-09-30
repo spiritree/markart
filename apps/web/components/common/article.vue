@@ -82,9 +82,6 @@ export default {
     }
   },
 
-  created() {
-    console.log(this.articleList)
-  }
 };
 </script>
 

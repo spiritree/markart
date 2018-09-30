@@ -1,23 +1,17 @@
-module.exports = {
+module.exports =  {
+  mode: 'universal',
   // cache: true,
   cache: {
     max: 1000,
     maxAge: 900000
   },
   build: {
-    // 将重复引用的(第三方/自有)模块添加到vendor.bundle.js
-    // 貌似重复打包了
-    // vendor: ['axios', 'marked', 'gravatar', 'highlight.js'],
     postcss: [
       require('postcss-nested')(),
       require('postcss-responsive-type')(),
       require('postcss-hexrgba')()
     ],
     // babel
-    babel: {
-      presets: ['es2015', 'stage-2'],
-      plugins: ['transform-async-to-generator', 'transform-runtime']
-    }
   },
   dev: process.env.NODE_ENV !== 'production',
   /*
