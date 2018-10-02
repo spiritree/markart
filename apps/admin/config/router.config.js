@@ -17,8 +17,11 @@ export default [
     routes: [
       {
         path: '/',
-        redirect: '/dashboard/analysis',
-        name: 'dashboard',
+        redirect: '/dashboard/analysis'
+      },
+      {
+        path: '/dashboard/analysis',
+        name: 'Dashboard',
         icon: 'dashboard',
         component: './Dashboard/Analysis'
       },

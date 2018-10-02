@@ -52,7 +52,7 @@ export default class Analysis extends Component {
     };
 
     return (
-      <div>
+      <React.Fragment>
         <Row gutter={24}>
           <Col {...topColResponsiveProps}>
             <ChartCard
@@ -105,7 +105,7 @@ export default class Analysis extends Component {
             />
           </Col>
         </Row>
-      </div>
+      </React.Fragment>
     );
   }
 }

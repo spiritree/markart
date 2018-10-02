@@ -24,7 +24,7 @@ let _ = {
   }
 };
 
-exports.easing = {
+export const easing = {
   ease: [0.25, 0.1, 0.25, 1.0],
   linear: [0.0, 0.0, 1.0, 1.0],
   'ease-in': [0.42, 0.0, 1.0, 1.0],
@@ -32,7 +32,7 @@ exports.easing = {
   'ease-in-out': [0.42, 0.0, 0.58, 1.0]
 };
 
-exports.scrollTo = (element, duration = 500, options) => {
+export const scrollTo = (element, duration = 500, options) => {
   options = options || {};
   options.easing = exports.easing['ease-in-out'];
 

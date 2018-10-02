@@ -8,12 +8,12 @@ import { ContainerQuery } from 'react-container-query'
 import classNames from 'classnames'
 import pathToRegexp from 'path-to-regexp'
 import { enquireScreen, unenquireScreen } from 'enquire-js'
-import { formatMessage } from 'umi/locale'
+// import { formatMessage } from 'umi/locale'
 import SiderMenu from '@/components/SiderMenu'
 import Authorized from '@/utils/Authorized'
 // import SettingDrawer from '@/components/SettingDrawer'
-import logo from '../assets/logo.svg'
-import Footer from './Footer'
+import logo from '../assets/markart.png'
+// import Footer from './Footer'
 import Header from './Header'
 import Context from './MenuContext'
 import Exception403 from '../pages/Exception/403'
@@ -83,21 +83,20 @@ class BasicLayout extends React.PureComponent {
     this.getBreadcrumbNameMap = memoizeOne(this.getBreadcrumbNameMap, isEqual)
     this.breadcrumbNameMap = this.getBreadcrumbNameMap()
     this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual)
-  }
-
-  state = {
-    rendering: true,
-    isMobile: false
+    this.state = {
+      rendering: true,
+      isMobile: false
+    }
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch({
-      type: 'user/fetchCurrent'
-    })
-    dispatch({
-      type: 'setting/getSetting'
-    })
+    // const { dispatch } = this.props
+    // dispatch({
+    //   type: 'user/fetchCurrent'
+    // })
+    // dispatch({
+    //   type: 'setting/getSetting'
+    // })
     this.renderRef = requestAnimationFrame(() => {
       this.setState({
         rendering: false
@@ -169,11 +168,8 @@ class BasicLayout extends React.PureComponent {
     if (!currRouterData) {
       return 'Ant Design Pro'
     }
-    const message = formatMessage({
-      id: currRouterData.locale || currRouterData.name,
-      defaultMessage: currRouterData.name
-    })
-    return `${message} - Ant Design Pro`
+
+    return currRouterData.name
   }
 
   getLayoutStyle = () => {
@@ -240,7 +236,7 @@ class BasicLayout extends React.PureComponent {
           <SiderMenu
             logo={logo}
             Authorized={Authorized}
-            theme={navTheme}
+            theme={'dark'}
             onCollapse={this.handleMenuCollapse}
             menuData={menuData}
             isMobile={isMobile}
@@ -268,7 +264,7 @@ class BasicLayout extends React.PureComponent {
               {children}
             </Authorized>
           </Content>
-          <Footer />
+          {/* <Footer /> */}
         </Layout>
       </Layout>
     )
@@ -289,8 +285,8 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default connect(({ global, setting }) => ({
+export default connect(({ global }) => ({
   collapsed: global.collapsed,
-  layout: setting.layout,
-  ...setting
+  // layout: setting.layout,
+  // ...setting
 }))(BasicLayout)
