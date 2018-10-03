@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import { Upload, Icon, message, Card, Button, Form, Col, Row, Radio, Input } from 'antd';
 import { connect } from 'dva';
 import SimpleMDE from 'simplemde';
-import FooterToolbar from '@/components/FooterToolbar';
-import TagSelect from '@/components/TagSelect';
+import FooterToolbar from 'ant-design-pro/lib/FooterToolbar';
+import TagSelect from 'ant-design-pro/lib/TagSelect';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './Release.less';
 

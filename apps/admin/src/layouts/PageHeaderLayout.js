@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'dva/router';
-import PageHeader from '@/components/PageHeader';
+import PageHeader from 'ant-design-pro/lib/PageHeader'
 import styles from './PageHeaderLayout.less';
 
 export default ({ children, wrapperClassName, top, ...restProps }) => (

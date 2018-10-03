@@ -8,7 +8,7 @@ import {
 } from 'antd';
 import {
   ChartCard,
-} from '@/components/Charts';
+} from 'ant-design-pro/lib/Charts';
 
 @connect(({ tag, article, category, comment }) => ({
   tag,

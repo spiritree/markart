@@ -1,7 +1,7 @@
 import React from 'react'
 // import DocumentTitle from 'react-document-title'
 import { Icon } from 'antd'
-import GlobalFooter from '@/components/GlobalFooter'
+import GlobalFooter from 'ant-design-pro/lib/GlobalFooter'
 import styles from './UserLayout.less'
 import logo from '../assets/logo.svg'
 
