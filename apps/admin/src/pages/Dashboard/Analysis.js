@@ -1,46 +1,39 @@
-import React, { Component } from 'react';
-import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Icon,
-  Tooltip,
-} from 'antd';
-import {
-  ChartCard,
-} from '@/components/Charts';
+import React, { Component } from 'react'
+import { connect } from 'dva'
+import { Row, Col, Icon, Tooltip } from 'antd'
+import { ChartCard } from 'ant-design-pro/lib/Charts'
 
 @connect(({ tag, article, category, comment }) => ({
   tag,
   category,
   article,
-  comment,
+  comment
 }))
 export default class Analysis extends Component {
   async componentDidMount() {
     await this.props.dispatch({
-      type: 'tag/fetch',
-    });
+      type: 'tag/fetch'
+    })
     await this.props.dispatch({
-      type: 'category/fetch',
-    });
+      type: 'category/fetch'
+    })
     await this.props.dispatch({
-      type: 'article/fetch',
-    });
+      type: 'article/fetch'
+    })
     await this.props.dispatch({
-      type: 'comment/fetch',
-    });
+      type: 'comment/fetch'
+    })
   }
 
   componentWillUnmount() {
-    const { dispatch } = this.props;
+    const { dispatch } = this.props
     dispatch({
-      type: 'chart/clear',
-    });
+      type: 'chart/clear'
+    })
   }
 
   render() {
-    const { tag, article, category, comment } = this.props;
+    const { tag, article, category, comment } = this.props
 
     const topColResponsiveProps = {
       xs: 24,
@@ -48,8 +41,8 @@ export default class Analysis extends Component {
       md: 12,
       lg: 12,
       xl: 6,
-      style: { marginBottom: 24 },
-    };
+      style: { marginBottom: 24 }
+    }
 
     return (
       <React.Fragment>
@@ -106,6 +99,6 @@ export default class Analysis extends Component {
           </Col>
         </Row>
       </React.Fragment>
-    );
+    )
   }
 }

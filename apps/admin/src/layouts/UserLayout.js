@@ -1,7 +1,7 @@
 import React from 'react'
 // import DocumentTitle from 'react-document-title'
 import { Icon } from 'antd'
-import GlobalFooter from '@/components/GlobalFooter'
+import GlobalFooter from 'ant-design-pro/lib/GlobalFooter'
 import styles from './UserLayout.less'
 import logo from '../assets/logo.svg'
 
@@ -32,9 +32,7 @@ class UserLayout extends React.PureComponent {
               <img alt="logo" className={styles.logo} src={logo} />
               <span className={styles.title}>React admin</span>
             </div>
-            <div className={styles.desc}>
-              React + Antd + Koa2 + TypeScript
-            </div>
+            <div className={styles.desc}>React + Antd + Koa2 + TypeScript</div>
           </div>
           {children}
         </div>

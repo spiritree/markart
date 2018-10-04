@@ -2,7 +2,7 @@ export default {
   namespace: 'register',
 
   state: {
-    status: undefined,
+    status: undefined
   },
 
   effects: {
@@ -10,17 +10,17 @@ export default {
       // const response = yield call(fakeRegister);
       yield put({
         type: 'registerHandle',
-        payload: response,
-      });
-    },
+        payload: response
+      })
+    }
   },
 
   reducers: {
     registerHandle(state, { payload }) {
       return {
         ...state,
-        status: payload.status,
-      };
-    },
-  },
-};
+        status: payload.status
+      }
+    }
+  }
+}

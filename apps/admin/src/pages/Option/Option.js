@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Card, Button, Form, Col, Row, Input } from 'antd'
 import { connect } from 'dva'
-import FooterToolbar from '@/components/FooterToolbar'
+import FooterToolbar from 'ant-design-pro/lib/FooterToolbar'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout'
 import styles from './Option.less'
 

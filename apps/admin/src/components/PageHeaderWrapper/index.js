@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'umi/link'
-import PageHeader from '@/components/PageHeader'
+import PageHeader from 'ant-design-pro/lib/PageHeader'
 import MenuContext from '@/layouts/MenuContext'
 import { connect } from 'dva'
 import GridContent from './GridContent'

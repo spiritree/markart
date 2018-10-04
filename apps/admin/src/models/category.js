@@ -1,5 +1,10 @@
-import { message } from 'antd';
-import { getCategoryList, addCategory, deleteCategory, updateCategory } from '../services/api';
+import { message } from 'antd'
+import {
+  getCategoryList,
+  addCategory,
+  deleteCategory,
+  updateCategory
+} from '../services/api'
 
 export default {
   namespace: 'category',
@@ -9,69 +14,75 @@ export default {
     data: {
       result: {
         list: [],
-        pagination: {},
-      },
-    },
+        pagination: {}
+      }
+    }
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(getCategoryList, payload);
+      const response = yield call(getCategoryList, payload)
       yield put({
         type: 'getCategoryList',
-        payload: response,
-      });
+        payload: response
+      })
     },
     *add({ payload }, { call, put }) {
-      const response = yield call(addCategory, payload);
-      const list = yield call(getCategoryList, payload);
+      const response = yield call(addCategory, payload)
+      const list = yield call(getCategoryList, payload)
       if (response && response.code === 1) {
         yield put({
           type: 'getCategoryList',
-          payload: list,
-        });
-        message.success(response.message);
+          payload: list
+        })
+        message.success(response.message)
       } else {
-        response ? message.error(response.message) : message.error('认证过期，重新登录');
+        response
+          ? message.error(response.message)
+          : message.error('认证过期，重新登录')
       }
     },
     *delete({ payload }, { call, put }) {
-      const response = yield call(deleteCategory, payload);
-      const list = yield call(getCategoryList, payload);
+      const response = yield call(deleteCategory, payload)
+      const list = yield call(getCategoryList, payload)
       if (response && response.code === 1) {
         yield put({
           type: 'getCategoryList',
-          payload: list,
-        });
-        message.success(response.message);
+          payload: list
+        })
+        message.success(response.message)
       } else {
-        response ? message.error(response.message) : message.error('认证过期，重新登录');
+        response
+          ? message.error(response.message)
+          : message.error('认证过期，重新登录')
       }
     },
     *update({ payload }, { call, put }) {
       const params = {
-        page_size: 10,
-      };
-      const response = yield call(updateCategory, payload);
-      const list = yield call(getCategoryList, params);
+        page_size: 10
+      }
+      const response = yield call(updateCategory, payload)
+      const list = yield call(getCategoryList, params)
       if (response && response.code === 1) {
         yield put({
           type: 'getCategoryList',
-          payload: list,
-        });
-        message.success(response.message);
+          payload: list
+        })
+        message.success(response.message)
       } else {
-        response ? message.error(response.message) : message.error('认证过期，重新登录');
+        response
+          ? message.error(response.message)
+          : message.error('认证过期，重新登录')
       }
-    },
+    }
   },
 
   reducers: {
     getCategoryList(state, action) {
       return {
         ...state,
-        data: action.payload,
-      };
-    },
-  },
-};
+        data: action.payload
+      }
+    }
+  }
+}

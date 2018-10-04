@@ -1,16 +1,26 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button, Table, Modal, Popconfirm } from 'antd';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import styles from './Category.less';
+import React, { PureComponent } from 'react'
+import { connect } from 'dva'
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  Input,
+  Button,
+  Table,
+  Modal,
+  Popconfirm
+} from 'antd'
+import PageHeaderLayout from '../../layouts/PageHeaderLayout'
+import styles from './Category.less'
 
-const FormItem = Form.Item;
-const { Column } = Table;
-const { TextArea } = Input;
+const FormItem = Form.Item
+const { Column } = Table
+const { TextArea } = Input
 
 @connect(({ category, loading }) => ({
   category,
-  loading: loading.models.category,
+  loading: loading.models.category
 }))
 @Form.create()
 export default class CategoryList extends PureComponent {
@@ -18,133 +28,133 @@ export default class CategoryList extends PureComponent {
     createModalVisible: false,
     updateModalVisible: false,
     expandForm: false,
-    id: '',
-  };
+    id: ''
+  }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch } = this.props
 
     const params = {
-      page_size: 10,
-    };
+      page_size: 10
+    }
 
     dispatch({
       type: 'category/fetch',
-      payload: params,
-    });
+      payload: params
+    })
   }
 
-  handleTableChange = (pagination) => {
-    const { dispatch } = this.props;
+  handleTableChange = pagination => {
+    const { dispatch } = this.props
 
     const params = {
       current_page: pagination.current,
-      page_size: pagination.pageSize,
-    };
+      page_size: pagination.pageSize
+    }
 
     dispatch({
       type: 'category/fetch',
-      payload: params,
-    });
+      payload: params
+    })
   }
 
   handleFormReset = () => {
-    const { form } = this.props;
-    form.resetFields();
+    const { form } = this.props
+    form.resetFields()
   }
 
-  handleSearch = (e) => {
-    e.preventDefault();
-    const { dispatch } = this.props;
-    const name = this.props.form.getFieldValue('keyword');
+  handleSearch = e => {
+    e.preventDefault()
+    const { dispatch } = this.props
+    const name = this.props.form.getFieldValue('keyword')
     const params = {
-      keyword: name,
-    };
+      keyword: name
+    }
     dispatch({
       type: 'category/fetch',
-      payload: params,
-    });
+      payload: params
+    })
   }
 
-  handleCreateModalVisible = (flag) => {
+  handleCreateModalVisible = flag => {
     this.setState({
-      createModalVisible: !!flag,
-    });
+      createModalVisible: !!flag
+    })
   }
 
-  handleUpdateModalVisible = (flag) => {
+  handleUpdateModalVisible = flag => {
     this.setState({
-      updateModalVisible: !!flag,
-    });
+      updateModalVisible: !!flag
+    })
   }
 
-  handleAdd = (e) => {
-    e.preventDefault();
+  handleAdd = e => {
+    e.preventDefault()
 
-    const { dispatch, form } = this.props;
+    const { dispatch, form } = this.props
 
     form.validateFields((err, fieldsValue) => {
-      if (err) return;
+      if (err) return
 
       dispatch({
         type: 'category/add',
         payload: {
-          ...fieldsValue,
-        },
-      });
+          ...fieldsValue
+        }
+      })
       this.setState({
-        createModalVisible: false,
-      });
-      this.handleFormReset();
-    });
+        createModalVisible: false
+      })
+      this.handleFormReset()
+    })
   }
 
-  handleUpdate = (e) => {
-    e.preventDefault();
+  handleUpdate = e => {
+    e.preventDefault()
 
-    const { dispatch, form } = this.props;
-    const { id } = this.state;
+    const { dispatch, form } = this.props
+    const { id } = this.state
 
     form.validateFields((err, fieldsValue) => {
-      if (err) return;
+      if (err) return
 
       dispatch({
         type: 'category/update',
         payload: {
           _id: id,
-          ...fieldsValue,
-        },
-      });
+          ...fieldsValue
+        }
+      })
       this.setState({
-        updateModalVisible: false,
-      });
-    });
+        updateModalVisible: false
+      })
+    })
   }
 
-  handleUpdateBtn = (record) => {
-    const { _id, name, slug, descript } = record;
-    this.setState({ id: _id });
+  handleUpdateBtn = record => {
+    const { _id, name, slug, descript } = record
+    this.setState({ id: _id })
     this.props.form.setFieldsValue({
       name,
       slug,
-      descript,
-    });
-    this.handleUpdateModalVisible(true);
+      descript
+    })
+    this.handleUpdateModalVisible(true)
   }
 
-  handleDeleteBtn = (record) => {
-    const { _id } = record;
-    const { dispatch } = this.props;
+  handleDeleteBtn = record => {
+    const { _id } = record
+    const { dispatch } = this.props
 
     dispatch({
       type: 'category/delete',
-      payload: _id,
-    });
+      payload: _id
+    })
   }
 
   renderCreateModal() {
-    const { getFieldDecorator } = this.props.form;
-    const { createModalVisible } = this.state;
+    const { getFieldDecorator } = this.props.form
+    const { createModalVisible } = this.state
     return (
       <Modal
         title="新建分类"
@@ -152,55 +162,43 @@ export default class CategoryList extends PureComponent {
         onOk={this.handleAdd}
         onCancel={() => this.handleCreateModalVisible()}
       >
-        <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
-          label="名称"
-        >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
           {getFieldDecorator('name', {
-              rules: [{
+            rules: [
+              {
                 required: true,
-                message: '请输入标签名称',
-              }],
-            })(
-              <Input />
-            )}
+                message: '请输入标签名称'
+              }
+            ]
+          })(<Input />)}
         </FormItem>
-        <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
-          label="别名"
-        >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="别名">
           {getFieldDecorator('slug', {
-              rules: [{
+            rules: [
+              {
                 required: true,
-                message: '请输入标签别名',
-              }],
-            })(
-              <Input />
-            )}
+                message: '请输入标签别名'
+              }
+            ]
+          })(<Input />)}
         </FormItem>
-        <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
-          label="描述"
-        >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
           {getFieldDecorator('descript', {
-              rules: [{
+            rules: [
+              {
                 required: true,
-                message: '请输入描述',
-              }],
-            })(
-              <TextArea rows={4} />
-            )}
+                message: '请输入描述'
+              }
+            ]
+          })(<TextArea rows={4} />)}
         </FormItem>
       </Modal>
-    );
+    )
   }
 
   renderUpdateForm() {
-    const { getFieldDecorator } = this.props.form;
-    const { updateModalVisible } = this.state;
+    const { getFieldDecorator } = this.props.form
+    const { updateModalVisible } = this.state
     return (
       <Modal
         title="修改分类"
@@ -209,92 +207,93 @@ export default class CategoryList extends PureComponent {
         onCancel={() => this.handleUpdateModalVisible()}
         afterClose={() => this.handleFormReset()}
       >
-        <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
-          label="名称"
-        >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
           {getFieldDecorator('name', {
-              rules: [{
+            rules: [
+              {
                 required: true,
-                message: '请输入分类名称',
-              }],
-            })(
-              <Input />
-            )}
+                message: '请输入分类名称'
+              }
+            ]
+          })(<Input />)}
         </FormItem>
-        <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
-          label="别名"
-        >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="别名">
           {getFieldDecorator('slug', {
-              rules: [{
+            rules: [
+              {
                 required: true,
-                message: '请输入分类别名',
-              }],
-            })(
-              <Input />
-            )}
+                message: '请输入分类别名'
+              }
+            ]
+          })(<Input />)}
         </FormItem>
-        <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
-          label="描述"
-        >
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
           {getFieldDecorator('descript', {
-              rules: [{
+            rules: [
+              {
                 required: true,
-                message: '请输入描述',
-              }],
-            })(
-              <TextArea rows={4} />
-            )}
+                message: '请输入描述'
+              }
+            ]
+          })(<TextArea rows={4} />)}
         </FormItem>
       </Modal>
-    );
+    )
   }
 
   renderSimpleForm() {
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="分类名称">
-              {getFieldDecorator('keyword')(
-                <Input placeholder="请输入" />
-              )}
+              {getFieldDecorator('keyword')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">查询</Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+              <Button type="primary" htmlType="submit">
+                查询
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
             </span>
           </Col>
         </Row>
       </Form>
-    );
+    )
   }
 
   renderForm() {
     // 展开拓展
-    return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
+    return this.state.expandForm
+      ? this.renderAdvancedForm()
+      : this.renderSimpleForm()
   }
 
   render() {
-    const { category: { data: { result: { list, pagination } } }, loading } = this.props;
+    const {
+      category: {
+        data: {
+          result: { list, pagination }
+        }
+      },
+      loading
+    } = this.props
 
     return (
       <PageHeaderLayout title="分类列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>
-              {this.renderForm()}
-            </div>
+            <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => this.handleCreateModalVisible(true)}>
+              <Button
+                icon="plus"
+                type="primary"
+                onClick={() => this.handleCreateModalVisible(true)}
+              >
                 新建
               </Button>
             </div>
@@ -313,34 +312,26 @@ export default class CategoryList extends PureComponent {
               onChange={this.handleTableChange}
               rowKey="id"
             >
-              <Column
-                title="名称"
-                dataIndex="name"
-                width="20%"
-              />
-              <Column
-                title="别名"
-                dataIndex="slug"
-                width="20%"
-              />
-              <Column
-                title="描述"
-                dataIndex="descript"
-                width="30%"
-              />
-              <Column
-                title="文章数"
-                dataIndex="count"
-                width="10%"
-              />
+              <Column title="名称" dataIndex="name" width="20%" />
+              <Column title="别名" dataIndex="slug" width="20%" />
+              <Column title="描述" dataIndex="descript" width="30%" />
+              <Column title="文章数" dataIndex="count" width="10%" />
               <Column
                 title="操作"
                 key="action"
                 width="20%"
                 render={(text, record) => (
                   <span>
-                    <Button style={{ margin: '0 20px 0 0' }} onClick={() => this.handleUpdateBtn(record)}>修改</Button>
-                    <Popconfirm title="确认删除？" onConfirm={() => this.handleDeleteBtn(record)}>
+                    <Button
+                      style={{ margin: '0 20px 0 0' }}
+                      onClick={() => this.handleUpdateBtn(record)}
+                    >
+                      修改
+                    </Button>
+                    <Popconfirm
+                      title="确认删除？"
+                      onConfirm={() => this.handleDeleteBtn(record)}
+                    >
                       <Button type="danger">删除</Button>
                     </Popconfirm>
                   </span>
@@ -352,6 +343,6 @@ export default class CategoryList extends PureComponent {
         {this.renderCreateModal()}
         {this.renderUpdateForm()}
       </PageHeaderLayout>
-    );
+    )
   }
 }
