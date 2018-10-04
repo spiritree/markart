@@ -32,18 +32,18 @@ export default {
     ]
   ],
   define: {
-    APP_TYPE: process.env.APP_TYPE || '',
+    APP_TYPE: process.env.APP_TYPE || ''
   },
   routes: pageRoutes,
   theme: {
     'card-actions-background': '#f5f8fa'
   },
   externals: {
-    '@antv/data-set': 'DataSet',
+    '@antv/data-set': 'DataSet'
   },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
-    javascriptEnabled: true,
+    javascriptEnabled: true
   },
   cssLoaderOptions: {
     modules: true,
@@ -53,21 +53,21 @@ export default {
         context.resourcePath.includes('ant.design.pro.less') ||
         context.resourcePath.includes('global.less')
       ) {
-        return localName;
+        return localName
       }
-      const match = context.resourcePath.match(/src(.*)/);
+      const match = context.resourcePath.match(/src(.*)/)
       if (match && match[1]) {
-        const antdProPath = match[1].replace('.less', '');
+        const antdProPath = match[1].replace('.less', '')
         const arr = antdProPath
           .split('/')
           .map(a => a.replace(/([A-Z])/g, '-$1'))
-          .map(a => a.toLowerCase());
-        return `antd-pro${arr.join('-')}-${localName}`.replace(/--/g, '-');
+          .map(a => a.toLowerCase())
+        return `antd-pro${arr.join('-')}-${localName}`.replace(/--/g, '-')
       }
-      return localName;
-    },
+      return localName
+    }
   },
   cssnano: {
-    mergeRules: false,
+    mergeRules: false
   }
 }

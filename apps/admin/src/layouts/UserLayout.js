@@ -32,9 +32,7 @@ class UserLayout extends React.PureComponent {
               <img alt="logo" className={styles.logo} src={logo} />
               <span className={styles.title}>React admin</span>
             </div>
-            <div className={styles.desc}>
-              React + Antd + Koa2 + TypeScript
-            </div>
+            <div className={styles.desc}>React + Antd + Koa2 + TypeScript</div>
           </div>
           {children}
         </div>

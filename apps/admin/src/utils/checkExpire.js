@@ -1,12 +1,12 @@
-
 export const loginExpired = () => {
   if (!window.localStorage.getItem('TOKEN')) {
-    return false;
+    return false
   }
-  const lifeTime = JSON.parse(window.localStorage.getItem('TOKEN') || '').lifeTime * 1000;
-  const nowTime = (new Date()).getTime();
+  const lifeTime =
+    JSON.parse(window.localStorage.getItem('TOKEN') || '').lifeTime * 1000
+  const nowTime = new Date().getTime()
   if (nowTime > lifeTime) {
-    return false;
+    return false
   }
-  return true;
-};
+  return true
+}
