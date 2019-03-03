@@ -7,10 +7,10 @@ import {
   CommentController,
   CategoryController,
   MessageController,
-  OptionController
+  OptionController,
+  QiniuController
 } from './controller'
 import { bindRoutes } from 'trafficlight'
-import QiniuController from './controller/qiniu'
 
 export default function(app: any) {
   const routerRoutes = new Router({ prefix: '/api' })
